@@ -75,3 +75,7 @@ The paper proposes a hybrid architecture that stores cryptographic hashes and me
 - Noh, S., & Rhee, K.-H. (2024). "Transparent and Accountable Training Data Sharing in Decentralized Machine Learning Systems." *Computers, Materials & Continua*, 79(3).
 
 The paper designs a smart-contract-based dataset splitting and distribution protocol for decentralized ML that stores only IPFS content identifiers on-chain and uses attribute-based proxy re-encryption to keep test data confidential from workers and prevent malicious requesters from manipulating evaluation data. It is important for our bibliography because it highlights the often-overlooked malicious-requester threat and demonstrates a practical cost model for minimizing on-chain storage to CIDs, which we can reference when justifying our own off-chain storage design.
+
+- Ahmed, W.A.H. Exploring blockchain technology as a governance layer for responsible artificial intelligence. AI Ethics 6, 334 (2026). https://doi.org/10.1007/s43681-026-01192-2
+
+This paper examines how blockchain technology can help bridge the gap between high-level AI governance principles and their practical implementation. It proposes a conceptual framework for recordings related to governance data throughout the AI lifecycle on a blockchain to improve transparency, auditability, and accountability. The paper is relevant to our project because it provides a theoretical foundation for using blockchain to track AI model provenance, ownership, and development history.
