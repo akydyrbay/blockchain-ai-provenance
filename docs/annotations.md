@@ -35,3 +35,43 @@ ProvChain is one of the important earlier works demonstrating how blockchain can
 - Samuel, S., Löffler, F., & König-Ries, B. (2020). “Machine Learning Pipelines: Provenance, Reproducibility and FAIR Data Principles.”
 
 This work examines ML experiment reproducibility and argues that source code and datasets alone are insufficient; additional pipeline provenance must be captured. It is useful for motivating why our registry should potentially record not only modelHash and datasetHash, but also items such as training configuration, code/version references, environment information, and relationships between model versions.
+
+- Filatovas, E., Stripinis, L., Orts, F., & Paulavičius, R. (2024). "Advancing Research Reproducibility in Machine Learning through Blockchain Technology." *Informatica*, 35(2), 231–258. DOI: 10.15388/24-INFOR553
+
+The paper proposes a community-driven, Hyperledger Fabric-based platform that stores ML experiment artifacts (models, datasets, parameters, hyperparameters, environment, hardware, and results) on-chain via a metadata schema and smart contracts to enable full reproducibility and auditability. It is important for our bibliography because it provides an experimentally validated blockchain architecture and metadata model that our work can build upon, extend, or contrast against when positioning our own reproducibility-focused design.
+
+- Akther, A., Arobee, A., Adnan, A. A., Auyon, O., Islam, A. S. M., & Akter, F. (2025). "Blockchain as a Platform for Artificial Intelligence (AI) Transparency." arXiv preprint arXiv:2503.08699.
+
+The paper surveys how blockchain's decentralization, immutability, and transparency can address AI's "black box" problem by recording AI decisions, data provenance, and model versions for auditability and regulatory compliance, while also discussing scalability, complexity, and integration challenges. It is important for our bibliography because it frames the broader AI transparency motivation and benefit/challenge landscape that our more focused reproducibility or provenance mechanism can be positioned within.
+
+- Neulinger, A., & Sparer, L. (2025). "Fostering AI alignment through blockchain, proof of personhood and zero knowledge proofs." *Cluster Computing*, 28, 983. DOI: 10.1007/s10586-025-05729-8
+
+The paper proposes a conceptual framework where AI alignment rules are encoded as immutable smart contracts on a blockchain governed by a Proof-of-Personhood consensus mechanism, using zk-STARKs for privacy-preserving, post-quantum-resistant identity verification and an AI shield to enforce rules in real time. It is important for our bibliography because it demonstrates a concrete blockchain-based governance and enforcement architecture for AI safety, offering a complementary perspective on how on-chain rules and cryptographic proofs can be used to constrain and audit AI systems.
+
+- Wang, Q., Yu, G., Sai, Y., Bandara, H. M. N. D., & Chen, S. (2024). "Is Your AI Truly Yours? Leveraging Blockchain for Copyrights, Provenance, and Lineage." *IEEE International Conference on Blockchain* (Blockchain 2024). DOI: 10.1109/Blockchain62396.2024.00044
+
+The paper presents IBIs, a blockchain-based framework with on-chain registries for datasets, licenses, and models plus off-chain signing services to dynamically manage copyright compliance, data provenance, and licensing updates across iterative AI retraining and fine-tuning workflows. It is important for our bibliography because it addresses the license lifecycle and ownership accountability dimensions of provenance that complement our model/dataset registry focus.
+
+- Mu, X., Wang, Y., Zhang, Y., Zhang, J., Wang, H., Xiang, Y., & Yu, Y. (2024). "Model Provenance via Model DNA." arXiv preprint arXiv:2404.13672.
+
+The paper introduces "Model DNA," a compact learned representation encoding a model's training data and input-output behavior, and uses a contrastive learning framework with a provenance classifier to determine whether a target model is derived from a source model via fine-tuning. It is important for our bibliography because it offers a content-based, ML-native alternative to ledger-based provenance, which we can contrast with our blockchain registry approach when justifying why cryptographic record-keeping is needed alongside technical provenance detection.
+
+- Verginadis, Y., Patiniotakis, I., & Mentzas, G. (2025). "NFT-based Data Provenance for AI Transparency in Enterprise." *Procedia Computer Science* (CENTERIS 2025).
+
+The paper proposes minting datasets as ERC-721 NFTs on a permissioned Ethereum network, where automated tools and human expert reviewers attach evaluation metadata on-chain while the data itself is stored off-chain via IPFS. It is important for our bibliography because it demonstrates a concrete NFT-based dataset certification and review workflow with attribute-based access control that we can position as a complementary data-level provenance mechanism to our model-centric registry.
+
+- Mohit, A., Aggarwal, B., & Gondhalekar, C. (2024). "Provenance Verification of AI-Generated Images via a Perceptual Hash Registry Anchored on Blockchain."
+
+The paper registers 64-bit perceptual hashes of AI-generated images at creation time in a blockchain-anchored registry, combining a Merkle Patricia Trie for on-chain commitments with off-chain BK-trees for Hamming-distance similarity search that survives resizing, compression, and minor edits. It is important for our bibliography because it shows how content-level fingerprints can be indexed and matched at scale, offering a concrete contrast to our metadata/registry approach for model and dataset provenance.
+
+- Adeyinka, A. (2025). "Securing the AI Supply Chain: Using Blockchain For Verifiable AI Model Provenance on Government Clouds." *SAMRIDDHI: A Journal of Physical Sciences, Engineering and Technology*, 17(1), 29–35. DOI: 10.18090/samriddhi.v17i01.05
+
+The paper presents a conceptual framework for anchoring datasets, training configurations, model checkpoints, and deployment instances on a blockchain to provide tamper-evident lifecycle provenance in government cloud AI supply chains. It is important for our bibliography because it maps provenance controls directly to policy frameworks such as NIST AI RMF, FedRAMP, ISO/IEC 42001, and the EU AI Act, which we can cite when justifying compliance-oriented design requirements.
+
+- Sukumaran, S., Korath, A., & Arun, G. (2026). "Tamper-Evident Data and Model Provenance for IoT-Based Machine Learning Using Blockchain and Off-Chain Storage." *Information*, 17(5), 499. DOI: 10.3390/info17050499
+
+The paper proposes a hybrid architecture that stores cryptographic hashes and metadata of IoT data batches, preprocessing outputs, and trained models on a permissioned blockchain while keeping large artifacts off-chain, with smart contracts enforcing verifiable linkage across the ML lifecycle. It is important for our bibliography because its simulated tamper-detection experiments with constant on-chain storage overhead provide a directly comparable evaluation baseline for lifecycle-level data–model provenance.
+
+- Noh, S., & Rhee, K.-H. (2024). "Transparent and Accountable Training Data Sharing in Decentralized Machine Learning Systems." *Computers, Materials & Continua*, 79(3).
+
+The paper designs a smart-contract-based dataset splitting and distribution protocol for decentralized ML that stores only IPFS content identifiers on-chain and uses attribute-based proxy re-encryption to keep test data confidential from workers and prevent malicious requesters from manipulating evaluation data. It is important for our bibliography because it highlights the often-overlooked malicious-requester threat and demonstrates a practical cost model for minimizing on-chain storage to CIDs, which we can reference when justifying our own off-chain storage design.
