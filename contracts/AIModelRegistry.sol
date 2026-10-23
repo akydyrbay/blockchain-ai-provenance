@@ -45,4 +45,19 @@ contract AIModelRegistry {
 
     }
 
+    // Register new Version
+    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external {
+        
+  
+        // At minimum we require one of the two main hashes to be set.
+        if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
+            revert("Invalid hashes");
+        }
+
+        Version storage v = versions[modelId].push();
+        v.weightsHash       = weightsHash;
+        v.trainingDataHash  = trainingDataHash;
+        v.versionURI        = versionURI;
+    }
+
 }
