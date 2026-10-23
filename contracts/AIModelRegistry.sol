@@ -19,10 +19,10 @@ contract AIModelRegistry {
 
 // Variables
 
-    uint256 private currentModelId; 
+    uint256 private _currentModelId; 
 
-    mapping(uint256 => Model) private models;
-    mapping(uint256 => Version[]) private versions;
+    mapping(uint256 => Model) private _models;
+    mapping(uint256 => Version[]) private _versions;
 
 
 // Events
@@ -35,12 +35,12 @@ contract AIModelRegistry {
     // Register new AI Model
     function registerModel(string calldata name, string calldata metadataURI) external returns (uint256 modelId) {
 
-        modelId = currentModelId++;
+        modelId = _currentModelId++;
 
-        models[modelId] = Model({
+        _models[modelId] = Model({
             modelId:     modelId,
             name:        name,
-            metadataURI: metadataURI,
+            metadataURI: metadataURI
         });
 
     }
@@ -54,7 +54,7 @@ contract AIModelRegistry {
             revert("Invalid hashes");
         }
 
-        Version storage v = versions[modelId].push();
+        Version storage v = _versions[modelId].push();
         v.weightsHash       = weightsHash;
         v.trainingDataHash  = trainingDataHash;
         v.versionURI        = versionURI;
