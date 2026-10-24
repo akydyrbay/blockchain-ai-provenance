@@ -6,13 +6,15 @@ contract AIModelRegistry {
     struct Model {
         uint256 modelId;
         string  name;
-        string  metadataURI;
+        string  metadataURI;  // URL to model metadata details
+        address owner;
+        uint256 createdAt;
     }
 
     struct Version {
         bytes32   weightsHash;      // hash of model weights / primary artifact
         bytes32   trainingDataHash; // hash of training set
-        string    versionURI;       // URL to metadata details
+        string    versionURI;       // URL to version metadata details
     }
 
 
@@ -40,7 +42,9 @@ contract AIModelRegistry {
         _models[modelId] = Model({
             modelId:     modelId,
             name:        name,
-            metadataURI: metadataURI
+            metadataURI: metadataURI,
+            owner:       msg.sender,
+            createdAt:   block.timestamp
         });
 
     }
