@@ -32,6 +32,17 @@ contract AIModelRegistry {
 // Events
 
 
+// Errors
+    error ModelDoesNotExist(uint256 modelId);
+
+// Modifiers 
+    modifier modelExists(uint256 modelId) {
+        if (_models[modelId].owner == address(0)) {
+            revert ModelDoesNotExist(modelId);
+        }
+        _;
+    }
+
 // Functions
 
     // Register new AI Model
@@ -50,7 +61,7 @@ contract AIModelRegistry {
     }
 
     // Register new Version
-    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external {
+    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external modelExists(modelId) {
 
         if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
             revert("Invalid hashes");
@@ -62,11 +73,11 @@ contract AIModelRegistry {
         v.versionURI        = versionURI;
     }
 
-    function getModel(uint256 modelId) external view returns (Model memory) {
+    function getModel(uint256 modelId) external view modelExists(modelId) returns (Model memory) {
         return _models[modelId];
     }
 
-    function getVersion(uint256 modelId, uint256 versionIndex) external view returns (Version memory)
+    function getVersion(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (Version memory)
     {
         if (versionIndex >= _versions[modelId].length) {
             revert ("Out of Bounds");
