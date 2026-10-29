@@ -12,7 +12,7 @@ contract AIModelRegistry {
     }
 
     struct Version {
-        bytes32   weightsHash;      // hash of model weights / primary artifact
+        bytes32   weightsHash;      // hash of model weights
         bytes32   trainingDataHash; // hash of training set
         string    versionURI;       // URL to version metadata details
     }
@@ -51,9 +51,7 @@ contract AIModelRegistry {
 
     // Register new Version
     function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external {
-        
-  
-        // At minimum we require one of the two main hashes to be set.
+
         if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
             revert("Invalid hashes");
         }
@@ -62,6 +60,22 @@ contract AIModelRegistry {
         v.weightsHash       = weightsHash;
         v.trainingDataHash  = trainingDataHash;
         v.versionURI        = versionURI;
+    }
+
+    function getModel(uint256 modelId) external view returns (Model memory) {
+        return _models[modelId];
+    }
+
+    function getVersion(uint256 modelId, uint256 versionIndex) external view returns (Version memory)
+    {
+        if (versionIndex >= _versions[modelId].length) {
+            revert ("Out of Bounds");
+        }
+        return _versions[modelId][versionIndex];
+    }
+
+    function totalModels() external view returns (uint256) {
+        return _currentModelId;
     }
 
 }
