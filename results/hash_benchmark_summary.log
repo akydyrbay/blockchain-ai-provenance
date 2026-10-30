@@ -1,0 +1,4 @@
+1 MiB: median 5.290 ms (10 repeats)
+10 MiB: median 35.960 ms (10 repeats)
+50 MiB: median 169.307 ms (10 repeats)
+Raw measurements written to results/hash_benchmark.csv
