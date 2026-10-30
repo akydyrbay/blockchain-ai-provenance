@@ -35,6 +35,9 @@ contract AIModelRegistry {
 // Errors
     error ModelDoesNotExist(uint256 modelId);
     error NoVersions(uint256 modelId);
+    error InvalidHashes();
+    error VersionIndexOutOfBounds(uint256 modelId, uint256 versionIndex);
+
 
 // Modifiers 
     modifier modelExists(uint256 modelId) {
@@ -65,7 +68,7 @@ contract AIModelRegistry {
     function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external modelExists(modelId) {
 
         if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
-            revert("Invalid hashes");
+            revert InvalidHashes();
         }
 
         Version storage v = _versions[modelId].push();
@@ -80,7 +83,7 @@ contract AIModelRegistry {
 
     function getVersion(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (Version memory) {
         if (versionIndex >= _versions[modelId].length) {
-            revert ("Out of Bounds");
+            revert VersionIndexOutOfBounds(modelId, versionIndex);
         }
         return _versions[modelId][versionIndex];
     }
