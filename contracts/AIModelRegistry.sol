@@ -5,16 +5,16 @@ contract AIModelRegistry {
 
     struct Model {
         uint256 modelId;
-        string  name;
-        string  metadataURI;  // URL to model metadata details
+        string name;
+        string metadataURI;  // URL to model metadata details
         address owner;
         uint256 createdAt;
     }
 
     struct Version {
-        bytes32   weightsHash;      // hash of model weights
-        bytes32   trainingDataHash; // hash of training set
-        string    versionURI;       // URL to version metadata details
+        bytes32 weightsHash;      // hash of model weights
+        bytes32 trainingDataHash; // hash of training set
+        string versionURI;       // URL to version metadata details
     }
 
 
@@ -34,6 +34,7 @@ contract AIModelRegistry {
 
 // Errors
     error ModelDoesNotExist(uint256 modelId);
+    error NoVersions(uint256 modelId);
 
 // Modifiers 
     modifier modelExists(uint256 modelId) {
@@ -51,11 +52,11 @@ contract AIModelRegistry {
         modelId = _currentModelId++;
 
         _models[modelId] = Model({
-            modelId:     modelId,
-            name:        name,
+            modelId: modelId,
+            name: name,
             metadataURI: metadataURI,
-            owner:       msg.sender,
-            createdAt:   block.timestamp
+            owner: msg.sender,
+            createdAt: block.timestamp
         });
 
     }
@@ -68,17 +69,16 @@ contract AIModelRegistry {
         }
 
         Version storage v = _versions[modelId].push();
-        v.weightsHash       = weightsHash;
-        v.trainingDataHash  = trainingDataHash;
-        v.versionURI        = versionURI;
+        v.weightsHash = weightsHash;
+        v.trainingDataHash = trainingDataHash;
+        v.versionURI = versionURI;
     }
 
     function getModel(uint256 modelId) external view modelExists(modelId) returns (Model memory) {
         return _models[modelId];
     }
 
-    function getVersion(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (Version memory)
-    {
+    function getVersion(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (Version memory) {
         if (versionIndex >= _versions[modelId].length) {
             revert ("Out of Bounds");
         }
@@ -87,6 +87,18 @@ contract AIModelRegistry {
 
     function totalModels() external view returns (uint256) {
         return _currentModelId;
+    }
+
+    function getLatestVersion(uint256 modelId) external view modelExists(modelId) returns (Version memory) {
+        uint256 len = _versions[modelId].length;
+        if (len == 0) {
+            revert NoVersions(modelId);
+        } 
+        return _versions[modelId][len - 1];
+    }
+
+    function getVersionCount(uint256 modelId) external view modelExists(modelId) returns (uint256) {
+        return _versions[modelId].length;
     }
 
 }
