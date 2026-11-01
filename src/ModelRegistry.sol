@@ -1,134 +1,110 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity ^0.8.24;
 
-/// @title ModelRegistry
-/// @notice An append-only registry of model artifact, training data and metadata hashes.
-/// @dev Hashes are SHA-256 digests of raw file bytes computed OFF CHAIN.
-///      The registry attests who recorded hashes, not who legally owns or trained a model.
-contract ModelRegistry {
+contract AIModelRegistry {
+
     struct Model {
+        uint256 modelId;
         string name;
+        string metadataURI; // URL to model metadata details
         address owner;
-        address pendingOwner;
-        uint256 latestVersion;
+        uint256 createdAt;
     }
 
-    struct VersionRecord {
-        bytes32 dataHash;
-        bytes32 artifactHash;
-        bytes32 metadataHash;
-        uint64 recordedAt;
-        address publisher;
+    struct Version {
+        bytes32 weightsHash; // hash of model weights
+        bytes32 trainingDataHash; // hash of training set
+        string versionURI; // URL to version metadata details
+        bytes32[] artifactHashes; // for configs
+        uint256 timestamp;
+        address registeredBy;
     }
 
-    error UnknownModel(uint256 modelId);
-    error UnknownVersion(uint256 modelId, uint256 version);
-    error NotModelOwner(uint256 modelId, address caller);
-    error NotPendingOwner(uint256 modelId, address caller);
-    error InvalidOwner();
-    error EmptyName();
-    error InvalidHash();
 
-    event ModelRegistered(uint256 indexed modelId, address indexed owner, string name);
-    event VersionRecorded(uint256 indexed modelId, uint256 indexed version, address indexed publisher);
-    event OwnershipTransferProposed(uint256 indexed modelId, address indexed oldOwner, address indexed newOwner);
-    event ModelOwnershipTransferred(uint256 indexed modelId, address indexed oldOwner, address indexed newOwner);
 
-    uint256 public nextModelId = 1;
+// Variables
+
+    uint256 private _currentModelId; 
+
     mapping(uint256 => Model) private _models;
-    mapping(uint256 => mapping(uint256 => VersionRecord)) private _versions;
+    mapping(uint256 => Version[]) private _versions;
 
-    function registerModel(
-        string calldata name,
-        bytes32 dataHash,
-        bytes32 artifactHash,
-        bytes32 metadataHash
-    ) external returns (uint256 modelId) {
-        if (bytes(name).length == 0) revert EmptyName();
-        _validateHashes(dataHash, artifactHash, metadataHash);
 
-        modelId = nextModelId++;
-        _models[modelId] = Model({
-            name: name,
-            owner: msg.sender,
-            pendingOwner: address(0),
-            latestVersion: 1
-        });
-        emit ModelRegistered(modelId, msg.sender, name);
-        _storeVersion(modelId, 1, dataHash, artifactHash, metadataHash);
-    }
+// Events
 
-    function addVersion(
-        uint256 modelId,
-        bytes32 dataHash,
-        bytes32 artifactHash,
-        bytes32 metadataHash
-    ) external returns (uint256 version) {
-        Model storage m = _requireModel(modelId);
-        if (msg.sender != m.owner) revert NotModelOwner(modelId, msg.sender);
-        _validateHashes(dataHash, artifactHash, metadataHash);
+// Events
 
-        version = ++m.latestVersion;
-        _storeVersion(modelId, version, dataHash, artifactHash, metadataHash);
-    }
 
-    function proposeOwnershipTransfer(uint256 modelId, address newOwner) external {
-        Model storage m = _requireModel(modelId);
-        if (msg.sender != m.owner) revert NotModelOwner(modelId, msg.sender);
-        if (newOwner == address(0) || newOwner == m.owner) revert InvalidOwner();
+// Errors
+    error ModelDoesNotExist(uint256 modelId);
+    error NoVersions(uint256 modelId);
+    error InvalidHashes();
+    error VersionIndexOutOfBounds(uint256 modelId, uint256 versionIndex);
 
-        m.pendingOwner = newOwner;
-        emit OwnershipTransferProposed(modelId, m.owner, newOwner);
-    }
 
-    function acceptOwnership(uint256 modelId) external {
-        Model storage m = _requireModel(modelId);
-        if (msg.sender != m.pendingOwner) revert NotPendingOwner(modelId, msg.sender);
-        address previousOwner = m.owner;
-        m.owner = msg.sender;
-        m.pendingOwner = address(0);
-        emit ModelOwnershipTransferred(modelId, previousOwner, msg.sender);
-    }
-
-    function getModel(uint256 modelId)
-        external view returns (string memory name, address owner, address pendingOwner, uint256 latestVersion)
-    {
-        Model storage m = _requireModel(modelId);
-        return (m.name, m.owner, m.pendingOwner, m.latestVersion);
-    }
-
-    /// @notice For version >= 2, the implicit parent is version - 1 of the same model.
-    function getVersion(uint256 modelId, uint256 version) external view returns (VersionRecord memory) {
-        Model storage m = _requireModel(modelId);
-        if (version == 0 || version > m.latestVersion) revert UnknownVersion(modelId, version);
-        return _versions[modelId][version];
-    }
-
-    function _requireModel(uint256 modelId) private view returns (Model storage m) {
-        m = _models[modelId];
-        if (m.latestVersion == 0) revert UnknownModel(modelId);
-    }
-
-    function _validateHashes(bytes32 dataHash, bytes32 artifactHash, bytes32 metadataHash) private pure {
-        if (dataHash == bytes32(0) || artifactHash == bytes32(0) || metadataHash == bytes32(0)) {
-            revert InvalidHash();
+// Modifiers 
+    modifier modelExists(uint256 modelId) {
+        if (_models[modelId].owner == address(0)) {
+            revert ModelDoesNotExist(modelId);
         }
+        _;
     }
 
-    function _storeVersion(
-        uint256 modelId,
-        uint256 version,
-        bytes32 dataHash,
-        bytes32 artifactHash,
-        bytes32 metadataHash
-    ) private {
-        _versions[modelId][version] = VersionRecord({
-            dataHash: dataHash,
-            artifactHash: artifactHash,
-            metadataHash: metadataHash,
-            recordedAt: uint64(block.timestamp),
-            publisher: msg.sender
+// Functions
+
+    // Register new AI Model
+    function registerModel(string calldata name, string calldata metadataURI) external returns (uint256 modelId) {
+
+        modelId = _currentModelId++;
+
+        _models[modelId] = Model({
+            modelId: modelId,
+            name: name,
+            metadataURI: metadataURI,
+            owner: msg.sender,
+            createdAt: block.timestamp
         });
-        emit VersionRecorded(modelId, version, msg.sender);
+
     }
+
+    // Register new Version
+    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external modelExists(modelId) {
+
+        if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
+            revert InvalidHashes();
+        }
+
+        Version storage v = _versions[modelId].push();
+        v.weightsHash = weightsHash;
+        v.trainingDataHash = trainingDataHash;
+        v.versionURI = versionURI;
+    }
+
+    function getModel(uint256 modelId) external view modelExists(modelId) returns (Model memory) {
+        return _models[modelId];
+    }
+
+    function getVersion(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (Version memory) {
+        if (versionIndex >= _versions[modelId].length) {
+            revert VersionIndexOutOfBounds(modelId, versionIndex);
+        }
+        return _versions[modelId][versionIndex];
+    }
+
+    function totalModels() external view returns (uint256) {
+        return _currentModelId;
+    }
+
+    function getLatestVersion(uint256 modelId) external view modelExists(modelId) returns (Version memory) {
+        uint256 len = _versions[modelId].length;
+        if (len == 0) {
+            revert NoVersions(modelId);
+        } 
+        return _versions[modelId][len - 1];
+    }
+
+    function getVersionCount(uint256 modelId) external view modelExists(modelId) returns (uint256) {
+        return _versions[modelId].length;
+    }
+
 }
