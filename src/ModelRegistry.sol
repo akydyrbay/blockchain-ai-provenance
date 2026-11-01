@@ -68,7 +68,7 @@ contract AIModelRegistry {
     }
 
     // Register new Version
-    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external modelExists(modelId) {
+    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI, bytes32[] calldata artifactHashes) external modelExists(modelId) {
 
         if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
             revert InvalidHashes();
@@ -78,6 +78,14 @@ contract AIModelRegistry {
         v.weightsHash = weightsHash;
         v.trainingDataHash = trainingDataHash;
         v.versionURI = versionURI;
+        v.timestamp = block.timestamp;
+        v.registeredBy = msg.sender;
+
+
+        for (uint256 i = 0; i < artifactHashes.length; i++) {
+            v.artifactHashes.push(artifactHashes[i]);
+        }
+
     }
 
     function getModel(uint256 modelId) external view modelExists(modelId) returns (Model memory) {
@@ -105,6 +113,13 @@ contract AIModelRegistry {
 
     function getVersionCount(uint256 modelId) external view modelExists(modelId) returns (uint256) {
         return _versions[modelId].length;
+    }
+
+    function getArtifactHashes(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (bytes32[] memory) {
+        if (versionIndex >= _versions[modelId].length) {
+            revert VersionIndexOutOfBounds(modelId, versionIndex);
+        }
+        return _versions[modelId][versionIndex].artifactHashes;
     }
 
 }
