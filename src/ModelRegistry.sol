@@ -8,7 +8,6 @@ contract AIModelRegistry {
         string metadataURI; // URL to model metadata details
         address owner;
         uint256 createdAt;
-        uint256 versionCount;
     }
 
     struct Version {
@@ -41,6 +40,7 @@ contract AIModelRegistry {
     error VersionIndexOutOfBounds(uint256 modelId, uint256 versionIndex);
     error NotModelOwner(uint256 modelId, address caller);
     error InvalidNewOwner();
+    error EmptyName();
 
 
 // Modifiers 
@@ -63,6 +63,10 @@ contract AIModelRegistry {
     // Register new AI Model
     function registerModel(string calldata name, string calldata metadataURI) external returns (uint256 modelId) {
 
+        if (bytes(name).length == 0) {
+            revert EmptyName();
+        }
+
         modelId = _currentModelId++;
 
         _models[modelId] = Model({
@@ -70,8 +74,7 @@ contract AIModelRegistry {
             name: name,
             metadataURI: metadataURI,
             owner: msg.sender,
-            createdAt: block.timestamp,
-            versionCount: 0
+            createdAt: block.timestamp
         });
 
         emit ModelRegistered(modelId, msg.sender, name, metadataURI);
@@ -97,7 +100,6 @@ contract AIModelRegistry {
         }
 
         versionIndex = _versions[modelId].length - 1;
-        _models[modelId].versionCount = _versions[modelId].length;
 
         emit VersionCreated(modelId, versionIndex, weightsHash, trainingDataHash, artifactHashes, msg.sender, versionURI);
     }
@@ -130,6 +132,9 @@ contract AIModelRegistry {
     }
 
     function getArtifactHashes(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (bytes32[] memory) {
+        if (versionIndex >= _versions[modelId].length) {
+            revert VersionIndexOutOfBounds(modelId, versionIndex);
+        }
         return _versions[modelId][versionIndex].artifactHashes;
     }
 
