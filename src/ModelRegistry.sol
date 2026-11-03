@@ -31,6 +31,7 @@ contract AIModelRegistry {
 // Events
     event ModelRegistered(uint256 indexed modelId, address indexed owner, string name, string metadataURI);
     event VersionCreated(uint256 indexed modelId, uint256 indexed versionIndex, bytes32 weightsHash, bytes32 trainingDataHash, bytes32[] artifactHashes, address indexed registeredBy, string versionURI);
+    event ModelOwnershipTransferred(uint256 indexed modelId, address indexed previousOwner, address indexed newOwner);
 
 
 // Errors
@@ -39,6 +40,7 @@ contract AIModelRegistry {
     error InvalidHashes();
     error VersionIndexOutOfBounds(uint256 modelId, uint256 versionIndex);
     error NotModelOwner(uint256 modelId, address caller);
+    error InvalidNewOwner();
 
 
 // Modifiers 
@@ -129,6 +131,15 @@ contract AIModelRegistry {
 
     function getArtifactHashes(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (bytes32[] memory) {
         return _versions[modelId][versionIndex].artifactHashes;
+    }
+
+    function transferModelOwnership(uint256 modelId, address newOwner) external modelExists(modelId) onlyModelOwner(modelId) {
+        if (newOwner == address(0)) revert InvalidNewOwner();
+
+        address previousOwner = _models[modelId].owner;
+        _models[modelId].owner = newOwner;
+
+        emit ModelOwnershipTransferred(modelId, previousOwner, newOwner);
     }
 
 }
