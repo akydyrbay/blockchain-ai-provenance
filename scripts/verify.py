@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independently compare the raw bytes of three files against on-chain hashes."""
+"""Verify file bytes against AIModelRegistry; artifactHashes[0] must commit to metadata."""
 import argparse
 import json
 import os
@@ -14,8 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--model-id', type=int, required=True)
-    parser.add_argument('--version', type=int, required=True)
+    parser.add_argument('--model-id', type=int, required=True, help='Zero-based contract model ID')
+    parser.add_argument('--version', type=int, required=True, help='One-based metadata version (v1 = contract index 0)')
     parser.add_argument('--data', type=Path, required=True)
     parser.add_argument('--artifact', type=Path, required=True)
     parser.add_argument('--metadata', type=Path, required=True)
@@ -25,8 +25,8 @@ def main() -> int:
     parser.add_argument('--chain-id', type=int, default=11155111, help='11155111 Sepolia, 31337 local Anvil')
     args = parser.parse_args()
 
-    if args.model_id < 1 or args.version < 1:
-        parser.error('model-id and version must be positive integers')
+    if args.model_id < 0 or args.version < 1:
+        parser.error('model-id must be nonnegative and version must be positive')
     if not args.rpc_url or not args.contract:
         parser.error('set SEPOLIA_RPC_URL and REGISTRY_ADDRESS or supply --rpc-url and --contract')
 
@@ -36,18 +36,23 @@ def main() -> int:
     if w3.eth.chain_id != args.chain_id:
         raise RuntimeError(f'Wrong chain: expected {args.chain_id}, got {w3.eth.chain_id}')
 
-    compiled_path = ROOT / 'out' / 'ModelRegistry.sol' / 'ModelRegistry.json'
+    compiled_path = ROOT / 'out' / 'ModelRegistry.sol' / 'AIModelRegistry.json'
     abi = json.loads(compiled_path.read_text(encoding='utf-8'))['abi']
     contract = w3.eth.contract(address=Web3.to_checksum_address(args.contract), abi=abi)
-    name, owner, pending_owner, latest = contract.functions.getModel(args.model_id).call()
-    record = contract.functions.getVersion(args.model_id, args.version).call()
-    expected = {'data': bytes(record[0]), 'artifact': bytes(record[1]), 'metadata': bytes(record[2])}
+    model_id, name, metadata_uri, owner, created_at, version_count = contract.functions.getModel(args.model_id).call()
+    version_index = args.version - 1
+    record = contract.functions.getVersion(args.model_id, version_index).call()
+    if not record[3]:
+        print('Metadata hash missing: expected artifactHashes[0]')
+        print('NOT VERIFIED')
+        return 1
+    expected = {'data': bytes(record[1]), 'artifact': bytes(record[0]), 'metadata': bytes(record[3][0])}
     files = {'data': args.data, 'artifact': args.artifact, 'metadata': args.metadata}
     actual = {kind: sha256_bytes(file) for kind, file in files.items()}
 
     print(f'Chain {w3.eth.chain_id} | registry {contract.address} | model {args.model_id} ({name})')
-    print(f'Current owner {owner} | latest version {latest} | checked version {args.version}')
-    print(f'Recorded publisher {record[4]} | timestamp {record[3]}')
+    print(f'Current owner {owner} | version count {version_count} | checked version {args.version} (index {version_index})')
+    print(f'Recorded publisher {record[5]} | timestamp {record[4]}')
     ok = True
     for kind in ('data', 'artifact', 'metadata'):
         matches = actual[kind] == expected[kind]
