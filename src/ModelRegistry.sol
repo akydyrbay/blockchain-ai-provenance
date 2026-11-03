@@ -2,13 +2,13 @@
 pragma solidity ^0.8.24;
 
 contract AIModelRegistry {
-
     struct Model {
         uint256 modelId;
         string name;
         string metadataURI; // URL to model metadata details
         address owner;
         uint256 createdAt;
+        uint256 versionCount;
     }
 
     struct Version {
@@ -23,16 +23,15 @@ contract AIModelRegistry {
 
 
 // Variables
-
     uint256 private _currentModelId; 
-
     mapping(uint256 => Model) private _models;
     mapping(uint256 => Version[]) private _versions;
 
 
 // Events
-
-// Events
+    event ModelRegistered(uint256 indexed modelId, address indexed owner, string name, string metadataURI);
+    event VersionCreated(uint256 indexed modelId, uint256 indexed versionIndex, bytes32 weightsHash, bytes32 trainingDataHash, bytes32[] artifactHashes, address indexed registeredBy, string versionURI);
+    event ModelOwnershipTransferred(uint256 indexed modelId, address indexed previousOwner, address indexed newOwner);
 
 
 // Errors
@@ -40,6 +39,8 @@ contract AIModelRegistry {
     error NoVersions(uint256 modelId);
     error InvalidHashes();
     error VersionIndexOutOfBounds(uint256 modelId, uint256 versionIndex);
+    error NotModelOwner(uint256 modelId, address caller);
+    error InvalidNewOwner();
 
 
 // Modifiers 
@@ -50,7 +51,14 @@ contract AIModelRegistry {
         _;
     }
 
-// Functions
+    modifier onlyModelOwner(uint256 modelId) {
+        if (_models[modelId].owner != msg.sender) {
+            revert NotModelOwner(modelId, msg.sender);
+        }
+        _;
+    }
+
+    // Functions
 
     // Register new AI Model
     function registerModel(string calldata name, string calldata metadataURI) external returns (uint256 modelId) {
@@ -62,13 +70,15 @@ contract AIModelRegistry {
             name: name,
             metadataURI: metadataURI,
             owner: msg.sender,
-            createdAt: block.timestamp
+            createdAt: block.timestamp,
+            versionCount: 0
         });
 
+        emit ModelRegistered(modelId, msg.sender, name, metadataURI);
     }
 
     // Register new Version
-    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI) external modelExists(modelId) {
+    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI, bytes32[] calldata artifactHashes) external modelExists(modelId) onlyModelOwner(modelId) returns (uint256 versionIndex){
 
         if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
             revert InvalidHashes();
@@ -78,6 +88,18 @@ contract AIModelRegistry {
         v.weightsHash = weightsHash;
         v.trainingDataHash = trainingDataHash;
         v.versionURI = versionURI;
+        v.timestamp = block.timestamp;
+        v.registeredBy = msg.sender;
+
+
+        for (uint256 i = 0; i < artifactHashes.length; i++) {
+            v.artifactHashes.push(artifactHashes[i]);
+        }
+
+        versionIndex = _versions[modelId].length - 1;
+        _models[modelId].versionCount = _versions[modelId].length;
+
+        emit VersionCreated(modelId, versionIndex, weightsHash, trainingDataHash, artifactHashes, msg.sender, versionURI);
     }
 
     function getModel(uint256 modelId) external view modelExists(modelId) returns (Model memory) {
@@ -105,6 +127,19 @@ contract AIModelRegistry {
 
     function getVersionCount(uint256 modelId) external view modelExists(modelId) returns (uint256) {
         return _versions[modelId].length;
+    }
+
+    function getArtifactHashes(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (bytes32[] memory) {
+        return _versions[modelId][versionIndex].artifactHashes;
+    }
+
+    function transferModelOwnership(uint256 modelId, address newOwner) external modelExists(modelId) onlyModelOwner(modelId) {
+        if (newOwner == address(0)) revert InvalidNewOwner();
+
+        address previousOwner = _models[modelId].owner;
+        _models[modelId].owner = newOwner;
+
+        emit ModelOwnershipTransferred(modelId, previousOwner, newOwner);
     }
 
 }
