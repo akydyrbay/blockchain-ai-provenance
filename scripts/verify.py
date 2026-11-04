@@ -39,7 +39,8 @@ def main() -> int:
     compiled_path = ROOT / 'out' / 'ModelRegistry.sol' / 'AIModelRegistry.json'
     abi = json.loads(compiled_path.read_text(encoding='utf-8'))['abi']
     contract = w3.eth.contract(address=Web3.to_checksum_address(args.contract), abi=abi)
-    model_id, name, metadata_uri, owner, created_at, version_count = contract.functions.getModel(args.model_id).call()
+    model_id, name, metadata_uri, owner, created_at = contract.functions.getModel(args.model_id).call()
+    version_count = contract.functions.getVersionCount(args.model_id).call()
     version_index = args.version - 1
     record = contract.functions.getVersion(args.model_id, version_index).call()
     if not record[3]:

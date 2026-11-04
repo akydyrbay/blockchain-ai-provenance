@@ -50,7 +50,7 @@ For the requested version, `verify.py` checks:
 
 The metadata may also record hyperparameters and library versions. Those bytes are protected by the metadata hash, but the verifier does not independently validate their accuracy.
 
-The verifier rejects a missing `artifactHashes[0]` or a mismatching metadata hash. This requirement belongs to the application: the contract permits an empty artifact array and rejects the two primary hashes only when both are zero. Publishers following these conventions must supply both file hashes and the metadata commitment.
+The verifier rejects a missing `artifactHashes[0]` or a mismatching metadata hash. The metadata commitment is an application requirement: the contract permits an empty artifact array. The contract rejects a version if either `weightsHash` or `trainingDataHash` is zero. Publishers following these conventions must supply both file hashes and the metadata commitment.
 
 ## Preserving artifacts
 

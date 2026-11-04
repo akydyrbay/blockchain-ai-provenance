@@ -83,7 +83,7 @@ contract AIModelRegistry {
     // Register new Version
     function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI, bytes32[] calldata artifactHashes) external modelExists(modelId) onlyModelOwner(modelId) returns (uint256 versionIndex){
 
-        if (weightsHash == bytes32(0) && trainingDataHash == bytes32(0)) {
+        if (weightsHash == bytes32(0) || trainingDataHash == bytes32(0)) {
             revert InvalidHashes();
         }
 

@@ -1,5 +1,8 @@
 # Blockchain AI Provenance
 
+Research Track Project Topic:
+Blockchain for AI provenance / model registry. Implement a contract that records model versions, training-data hashes and ownership on-chain, so an AI model's lineage is auditable
+
 A research prototype for recording and verifying AI model versions on an Ethereum-compatible blockchain. Model files and datasets stay off-chain; a Solidity registry stores their hashes, metadata references, publisher addresses, and timestamps.
 
 The demo uses the real Iris dataset bundled with scikit-learn and two independently trained logistic-regression models. It demonstrates file integrity and version history, not fine-tuning ancestry.
