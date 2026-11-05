@@ -1,0 +1,24 @@
+No files changed, compilation skipped
+
+Ran 18 tests for test/ModelRegistry.t.sol:ModelRegistryTest
+[PASS] testCannotAppendAsNonOwner() (gas: 108089)
+[PASS] testFuzzInvalidVersionIndexes(uint256) (runs: 256, μ: 32416, ~: 32401)
+[PASS] testFuzzMissingModelsRejectAllModelOperations(uint256) (runs: 256, μ: 140881, ~: 140839)
+[PASS] testFuzzNonOwnerCannotAppendOrTransfer(address) (runs: 256, μ: 96016, ~: 96016)
+[PASS] testFuzzRejectsEitherMissingHash(bytes32) (runs: 256, μ: 216388, ~: 216596)
+[PASS] testFuzzStoresNonzeroHashes(bytes32,bytes32,bytes32) (runs: 256, μ: 230663, ~: 230937)
+[PASS] testOwnerAppendsWithoutChangingPriorVersion() (gas: 371291)
+[PASS] testOwnershipTransferChangesAppendPermissions() (gas: 457316)
+[PASS] testOwnershipTransferValidatesNewOwnerAndPermissions() (gas: 90655)
+[PASS] testRegisterModelStartsWithoutVersions() (gas: 246300)
+[PASS] testRegisterVersionStoresRecord() (gas: 98188)
+[PASS] testRejectsBothZeroHashes() (gas: 106417)
+[PASS] testRejectsEmptyNameWithoutConsumingModelId() (gas: 190682)
+[PASS] testRejectsZeroTrainingDataHash() (gas: 106819)
+[PASS] testRejectsZeroWeightsHash() (gas: 106767)
+[PASS] testUnknownModelAndVersionRevert() (gas: 61448)
+[PASS] testVersionRegistrationEmitsEventAndStoresAllArtifacts() (gas: 286702)
+[PASS] testVersionsAreIsolatedBetweenModels() (gas: 472745)
+Suite result: ok. 18 passed; 0 failed; 0 skipped; finished in 54.98ms (245.80ms CPU time)
+
+Ran 1 test suite in 55.46ms (54.98ms CPU time): 18 tests passed, 0 failed, 0 skipped (18 total tests)

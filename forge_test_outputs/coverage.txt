@@ -1,0 +1,34 @@
+Compiler run successful!
+Analysing contracts...
+Running tests...
+
+Ran 18 tests for test/ModelRegistry.t.sol:ModelRegistryTest
+[PASS] testCannotAppendAsNonOwner() (gas: 120261)
+[PASS] testFuzzInvalidVersionIndexes(uint256) (runs: 256, μ: 37049, ~: 37023)
+[PASS] testFuzzMissingModelsRejectAllModelOperations(uint256) (runs: 256, μ: 152527, ~: 152382)
+[PASS] testFuzzNonOwnerCannotAppendOrTransfer(address) (runs: 256, μ: 103732, ~: 103732)
+[PASS] testFuzzRejectsEitherMissingHash(bytes32) (runs: 256, μ: 239894, ~: 240106)
+[PASS] testFuzzStoresNonzeroHashes(bytes32,bytes32,bytes32) (runs: 256, μ: 237818, ~: 238267)
+[PASS] testOwnerAppendsWithoutChangingPriorVersion() (gas: 397427)
+[PASS] testOwnershipTransferChangesAppendPermissions() (gas: 485218)
+[PASS] testOwnershipTransferValidatesNewOwnerAndPermissions() (gas: 96835)
+[PASS] testRegisterModelStartsWithoutVersions() (gas: 259341)
+[PASS] testRegisterVersionStoresRecord() (gas: 108964)
+[PASS] testRejectsBothZeroHashes() (gas: 118025)
+[PASS] testRejectsEmptyNameWithoutConsumingModelId() (gas: 193421)
+[PASS] testRejectsZeroTrainingDataHash() (gas: 118398)
+[PASS] testRejectsZeroWeightsHash() (gas: 118338)
+[PASS] testUnknownModelAndVersionRevert() (gas: 71262)
+[PASS] testVersionRegistrationEmitsEventAndStoresAllArtifacts() (gas: 298789)
+[PASS] testVersionsAreIsolatedBetweenModels() (gas: 490571)
+Suite result: ok. 18 passed; 0 failed; 0 skipped; finished in 78.67ms (351.48ms CPU time)
+
+Ran 1 test suite in 79.01ms (78.67ms CPU time): 18 tests passed, 0 failed, 0 skipped (18 total tests)
+
+╭-----------------------+-----------------+-----------------+---------------+-----------------╮
+| File                  | % Lines         | % Statements    | % Branches    | % Funcs         |
++=============================================================================================+
+| src/ModelRegistry.sol | 100.00% (49/49) | 100.00% (44/44) | 100.00% (8/8) | 100.00% (11/11) |
+|-----------------------+-----------------+-----------------+---------------+-----------------|
+| Total                 | 100.00% (49/49) | 100.00% (44/44) | 100.00% (8/8) | 100.00% (11/11) |
+╰-----------------------+-----------------+-----------------+---------------+-----------------╯

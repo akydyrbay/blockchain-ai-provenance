@@ -1,0 +1,55 @@
+No files changed, compilation skipped
+
+Ran 18 tests for test/ModelRegistry.t.sol:ModelRegistryTest
+[PASS] testCannotAppendAsNonOwner() (gas: 108089)
+[PASS] testFuzzInvalidVersionIndexes(uint256) (runs: 256, μ: 32425, ~: 32401)
+[PASS] testFuzzMissingModelsRejectAllModelOperations(uint256) (runs: 256, μ: 140865, ~: 140839)
+[PASS] testFuzzNonOwnerCannotAppendOrTransfer(address) (runs: 256, μ: 96016, ~: 96016)
+[PASS] testFuzzRejectsEitherMissingHash(bytes32) (runs: 256, μ: 216380, ~: 216596)
+[PASS] testFuzzStoresNonzeroHashes(bytes32,bytes32,bytes32) (runs: 256, μ: 230658, ~: 230937)
+[PASS] testOwnerAppendsWithoutChangingPriorVersion() (gas: 371291)
+[PASS] testOwnershipTransferChangesAppendPermissions() (gas: 457316)
+[PASS] testOwnershipTransferValidatesNewOwnerAndPermissions() (gas: 90655)
+[PASS] testRegisterModelStartsWithoutVersions() (gas: 246300)
+[PASS] testRegisterVersionStoresRecord() (gas: 98188)
+[PASS] testRejectsBothZeroHashes() (gas: 106417)
+[PASS] testRejectsEmptyNameWithoutConsumingModelId() (gas: 190682)
+[PASS] testRejectsZeroTrainingDataHash() (gas: 106819)
+[PASS] testRejectsZeroWeightsHash() (gas: 106767)
+[PASS] testUnknownModelAndVersionRevert() (gas: 61448)
+[PASS] testVersionRegistrationEmitsEventAndStoresAllArtifacts() (gas: 286702)
+[PASS] testVersionsAreIsolatedBetweenModels() (gas: 472745)
+Suite result: ok. 18 passed; 0 failed; 0 skipped; finished in 66.49ms (265.37ms CPU time)
+
+╭------------------------------------------------+-----------------+--------+--------+--------+---------╮
+| src/ModelRegistry.sol:AIModelRegistry Contract |                 |        |        |        |         |
++=======================================================================================================+
+| Deployment Cost                                | Deployment Size |        |        |        |         |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+|                                        1062856 |            4698 |        |        |        |         |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+|                                                |                 |        |        |        |         |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| Function Name                                  | Min             | Avg    | Median | Max    | # Calls |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| getArtifactHashes                              |            2546 |   3688 |   4766 |  11984 |     518 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| getLatestVersion                               |            2758 |   2839 |   2758 |  21790 |     259 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| getModel                                       |            2712 |   8089 |  13406 |  13406 |     519 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| getVersion                                     |            2760 |  16653 |  21717 |  23965 |    1822 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| getVersionCount                                |            2527 |   4143 |   4674 |   4674 |    1041 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| registerModel                                  |           22632 | 135861 | 140900 | 143436 |      22 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| registerVersion                                |           26109 |  62019 |  26755 | 215520 |    1312 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| totalModels                                    |            2269 |   2269 |   2269 |   2269 |     260 |
+|------------------------------------------------+-----------------+--------+--------+--------+---------|
+| transferModelOwnership                         |           24165 |  24378 |  24420 |  29425 |     518 |
+╰------------------------------------------------+-----------------+--------+--------+--------+---------╯
+
+
+Ran 1 test suite in 146.59ms (66.49ms CPU time): 18 tests passed, 0 failed, 0 skipped (18 total tests)
