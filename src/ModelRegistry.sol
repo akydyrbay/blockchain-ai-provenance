@@ -19,21 +19,27 @@ contract AIModelRegistry {
         address registeredBy;
     }
 
-
-
-// Variables
-    uint256 private _currentModelId; 
+    // Variables
+    uint256 private _currentModelId;
     mapping(uint256 => Model) private _models;
     mapping(uint256 => Version[]) private _versions;
 
-
-// Events
+    // Events
     event ModelRegistered(uint256 indexed modelId, address indexed owner, string name, string metadataURI);
-    event VersionCreated(uint256 indexed modelId, uint256 indexed versionIndex, bytes32 weightsHash, bytes32 trainingDataHash, bytes32[] artifactHashes, address indexed registeredBy, string versionURI);
-    event ModelOwnershipTransferred(uint256 indexed modelId, address indexed previousOwner, address indexed newOwner);
+    event VersionCreated(
+        uint256 indexed modelId,
+        uint256 indexed versionIndex,
+        bytes32 weightsHash,
+        bytes32 trainingDataHash,
+        bytes32[] artifactHashes,
+        address indexed registeredBy,
+        string versionURI
+    );
+    event ModelOwnershipTransferred(
+        uint256 indexed modelId, address indexed previousOwner, address indexed newOwner
+    );
 
-
-// Errors
+    // Errors
     error ModelDoesNotExist(uint256 modelId);
     error NoVersions(uint256 modelId);
     error InvalidHashes();
@@ -42,8 +48,7 @@ contract AIModelRegistry {
     error InvalidNewOwner();
     error EmptyName();
 
-
-// Modifiers 
+    // Modifiers
     modifier modelExists(uint256 modelId) {
         if (_models[modelId].owner == address(0)) {
             revert ModelDoesNotExist(modelId);
@@ -61,8 +66,10 @@ contract AIModelRegistry {
     // Functions
 
     // Register new AI Model
-    function registerModel(string calldata name, string calldata metadataURI) external returns (uint256 modelId) {
-
+    function registerModel(string calldata name, string calldata metadataURI)
+        external
+        returns (uint256 modelId)
+    {
         if (bytes(name).length == 0) {
             revert EmptyName();
         }
@@ -81,8 +88,13 @@ contract AIModelRegistry {
     }
 
     // Register new Version
-    function registerVersion(uint256 modelId, bytes32 weightsHash, bytes32 trainingDataHash, string calldata versionURI, bytes32[] calldata artifactHashes) external modelExists(modelId) onlyModelOwner(modelId) returns (uint256 versionIndex){
-
+    function registerVersion(
+        uint256 modelId,
+        bytes32 weightsHash,
+        bytes32 trainingDataHash,
+        string calldata versionURI,
+        bytes32[] calldata artifactHashes
+    ) external modelExists(modelId) onlyModelOwner(modelId) returns (uint256 versionIndex) {
         if (weightsHash == bytes32(0) || trainingDataHash == bytes32(0)) {
             revert InvalidHashes();
         }
@@ -94,21 +106,27 @@ contract AIModelRegistry {
         v.timestamp = block.timestamp;
         v.registeredBy = msg.sender;
 
-
         for (uint256 i = 0; i < artifactHashes.length; i++) {
             v.artifactHashes.push(artifactHashes[i]);
         }
 
         versionIndex = _versions[modelId].length - 1;
 
-        emit VersionCreated(modelId, versionIndex, weightsHash, trainingDataHash, artifactHashes, msg.sender, versionURI);
+        emit VersionCreated(
+            modelId, versionIndex, weightsHash, trainingDataHash, artifactHashes, msg.sender, versionURI
+        );
     }
 
     function getModel(uint256 modelId) external view modelExists(modelId) returns (Model memory) {
         return _models[modelId];
     }
 
-    function getVersion(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (Version memory) {
+    function getVersion(uint256 modelId, uint256 versionIndex)
+        external
+        view
+        modelExists(modelId)
+        returns (Version memory)
+    {
         if (versionIndex >= _versions[modelId].length) {
             revert VersionIndexOutOfBounds(modelId, versionIndex);
         }
@@ -123,7 +141,7 @@ contract AIModelRegistry {
         uint256 len = _versions[modelId].length;
         if (len == 0) {
             revert NoVersions(modelId);
-        } 
+        }
         return _versions[modelId][len - 1];
     }
 
@@ -131,14 +149,23 @@ contract AIModelRegistry {
         return _versions[modelId].length;
     }
 
-    function getArtifactHashes(uint256 modelId, uint256 versionIndex) external view modelExists(modelId) returns (bytes32[] memory) {
+    function getArtifactHashes(uint256 modelId, uint256 versionIndex)
+        external
+        view
+        modelExists(modelId)
+        returns (bytes32[] memory)
+    {
         if (versionIndex >= _versions[modelId].length) {
             revert VersionIndexOutOfBounds(modelId, versionIndex);
         }
         return _versions[modelId][versionIndex].artifactHashes;
     }
 
-    function transferModelOwnership(uint256 modelId, address newOwner) external modelExists(modelId) onlyModelOwner(modelId) {
+    function transferModelOwnership(uint256 modelId, address newOwner)
+        external
+        modelExists(modelId)
+        onlyModelOwner(modelId)
+    {
         if (newOwner == address(0)) revert InvalidNewOwner();
 
         address previousOwner = _models[modelId].owner;
@@ -146,5 +173,4 @@ contract AIModelRegistry {
 
         emit ModelOwnershipTransferred(modelId, previousOwner, newOwner);
     }
-
 }
