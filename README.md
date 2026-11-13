@@ -22,7 +22,7 @@ The registry records claims made by an address. It does not prove that a model w
 | Path | Contents |
 | --- | --- |
 | `src/ModelRegistry.sol` | `AIModelRegistry` contract |
-| `test/` | Foundry contract tests |
+| `forge_test/` | Foundry contract tests |
 | `scripts/` | Training, hashing, verification, and experiment tools |
 | `data/`, `models/` | Preserved Iris training data, model artifacts, and metadata |
 | `results/`, `figures/` | Experiment logs, raw measurements, and plots |
@@ -35,15 +35,15 @@ Requires Python 3.11 and Foundry (`forge`, `cast`, and optionally `anvil`). Run 
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements-lock.txt
+python -m pip install -r requirements.txt
 
-# Install the Solidity test dependency if lib/forge-std is absent.
-forge install foundry-rs/forge-std
+# Retrieve the exact Solidity test dependency pinned by this repository.
+git submodule update --init --recursive
 forge build
 forge test -vv
 ```
 
-The Foundry configuration uses Solidity 0.8.24. Building produces the verifier ABI at `out/ModelRegistry.sol/AIModelRegistry.json`.
+`requirements.txt` pins the Python dependencies for training, verification, plotting, and static analysis. The Foundry configuration uses Solidity 0.8.24 and discovers tests in `forge_test/`. Building produces the verifier ABI at `out/ModelRegistry.sol/AIModelRegistry.json`. See [validation and deployment notes](docs/notes.md) for coverage, gas reports, and static analysis.
 
 ## Off-chain experiments
 

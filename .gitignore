@@ -2,6 +2,7 @@
 
 # Local Python environment and secrets
 .venv/
+.venv-*/
 __pycache__/
 *.py[cod]
 .env

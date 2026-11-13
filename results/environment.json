@@ -6,5 +6,6 @@
   "architecture": "x86_64",
   "processor": "i386",
   "random_seed": 42,
-  "dependency_lock": "requirements-lock.txt"
+  "dependency_lock": "requirements-lock.txt",
+  "dependency_lock_commit": "cf3378efcfcf6d88a3cb12a87508ef46a0633e7b"
 }

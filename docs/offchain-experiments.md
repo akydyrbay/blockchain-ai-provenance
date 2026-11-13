@@ -12,9 +12,10 @@ it does not establish fine-tuning ancestry.
 
 ## Reproduction
 
-Use Python 3.11 and install requirements-lock.txt in a virtual environment.
+Use Python 3.11 and install the pinned `requirements.txt` dependencies in a virtual environment.
 
-Run:
+Run from the repository root:
+
 1. python scripts/train_demo.py
 2. python scripts/experiment_integrity.py data/iris_train.csv models/v1/model.joblib models/v1/metadata.json models/v2/model.joblib models/v2/metadata.json --trials 30 --seed 42 --output results/integrity.csv
 3. python scripts/benchmark_hashing.py --sizes-mib 1 10 50 --repeats 10 --output results/hash_benchmark.csv
@@ -30,5 +31,11 @@ when comparing against their hashes or future blockchain records.
 - results/integrity_summary.log: observed detection totals.
 - results/hash_benchmark.csv: individual hashing measurements.
 - figures/hash_time.png: median hashing time by file size.
-- results/environment.json: ex- results/environment.json: ex- results/
-- requirements-lock.t- requirements-lock.t- requirements-lock.t- requirements-lock.t- requirepare against locally computed baseline has- requirements-lock.t- requirements-lock.t- requirements-lock.t- requirements-lock.t- requirepare against locally computed baseline has- requirements-lock.t- requirements-lock.t- requirements-lock.t- requireon- requirements-lock.t- requirements-lock.t- rurements remain pending contract integration.
+- results/environment.json: execution environment, random seed, and source revision.
+- requirements.txt: pinned dependencies for the current project. The historical environment record identifies the Git revision containing its original dependency lock.
+
+## Limitations
+
+The integrity trials compare altered bytes against locally computed baseline hashes; they do not query a blockchain or test contract permissions. Hashing times include file reading and may reflect filesystem cache effects. All repetitions are retained in the CSV.
+
+Sepolia contract deployment is recorded in `broadcast/Deploy.s.sol/11155111/`. Model registration, on-chain artifact verification, and the remaining transaction measurements are separate steps; see `plan.md` for their status.
