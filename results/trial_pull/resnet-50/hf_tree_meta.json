@@ -1,0 +1,87 @@
+{
+  "base_model": "microsoft/resnet-50",
+  "pulled_at_utc": "2026-11-17T08:25:40+00:00",
+  "finished_at_utc": "2026-11-17T08:36:31+00:00",
+  "limits": {
+    "max_models": 3000,
+    "max_depth": 10
+  },
+  "truncated": false,
+  "relations_followed": [
+    "finetune",
+    "adapter",
+    "quantized",
+    "merge"
+  ],
+  "weight_extensions": [
+    ".safetensors",
+    ".bin",
+    ".pt",
+    ".pth",
+    ".h5",
+    ".msgpack",
+    ".onnx",
+    ".gguf",
+    ".ckpt",
+    ".keras",
+    ".tflite",
+    ".ot"
+  ],
+  "weights_hash_rule": "SHA-256 over sorted 'path:sha256\\n' lines of weight files",
+  "data_ref_hash_rule": "SHA-256 over sorted dataset names joined by '\\n'; 'dataset:undeclared' if none",
+  "requests": 1043,
+  "rate_limit_waits": 0,
+  "python": "3.11.13",
+  "requests_version": "2.34.2",
+  "summary": {
+    "n_models": 522,
+    "n_external_roots": 1,
+    "max_depth": 2,
+    "models_per_depth": {
+      "0": 2,
+      "1": 514,
+      "2": 6
+    },
+    "models_per_relation": {
+      "finetune": 503,
+      "quantized": 15,
+      "adapter": 2,
+      "root": 1,
+      "unspecified": 1,
+      "external_root": 1
+    },
+    "models_per_status": {
+      "ok": 505,
+      "no_weight_hashes": 12,
+      "duplicate_weights": 5
+    },
+    "n_multi_parent": 1,
+    "n_multi_parent_registrable": 1,
+    "share_with_weights_hash": 0.977,
+    "share_declaring_datasets": 0.2586,
+    "share_declaring_license": 0.8985,
+    "licenses": {
+      "apache-2.0": 419,
+      "(none)": 53,
+      "mit": 37,
+      "gpl-3.0": 3,
+      "wtfpl": 2,
+      "cc-by-4.0": 2,
+      "bsd-3-clause": 1,
+      "cc-by-nc-4.0": 1,
+      "afl-3.0": 1,
+      "unknown": 1,
+      "gpl": 1,
+      "openrail++": 1
+    },
+    "mean_children_of_parents": 65.12,
+    "n_registrable": 505,
+    "share_registrable": 0.9674,
+    "registrable_per_depth": {
+      "0": 2,
+      "1": 497,
+      "2": 6
+    },
+    "n_with_parents": 520
+  }
+}

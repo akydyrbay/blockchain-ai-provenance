@@ -12,7 +12,7 @@ Our literature review has not found an empirical comparison of **where provenanc
 
 #### **2. Research Questions**
 
-**Main Research Question:** For a real Hugging Face vision-model family tree, how do (D1) a direct on-chain storage registry, (D2) a smart contract that enforces provenance policy itself, and (D3) off-chain OPA policy enforcement anchored on-chain through a Merkle-DAG compare in on-chain cost, lineage verification latency and audit throughput, and in which tampering and policy violations each one prevents or detects?
+**Main Research Question:** For a real Hugging Face model family tree that includes merged models, how do (D1) a direct on-chain storage registry, (D2) a smart contract that enforces provenance policy itself, and (D3) off-chain OPA policy enforcement anchored on-chain through a Merkle-DAG compare in on-chain cost, lineage verification latency and audit throughput, and in which tampering and policy violations each one prevents or detects?
 
 **Sub-Questions:**
 
@@ -40,7 +40,7 @@ D3 node hash: `h(M_v) = H(h(W_v) ‖ h(D_v) ‖ sort(h(M_p) for every parent p) 
 
 #### **4. Data**
 
-- **Real lineage tree:** the Hugging Face Hub descendants of **`microsoft/resnet-50`**, following the finetune, adapter, quantized and merge relations. This is a vision CNN family, deliberately different from the SmolLM2 language-model family used by ai-provenance-registry. The base model, depth and size limits are fixed and logged before any gas is measured.
+- **Real lineage tree:** the Hugging Face Hub descendants of **`TinyLlama/TinyLlama-1.1B-Chat-v1.0`**, following the finetune, adapter, quantized and merge relations: 2,586 models to depth 4, including 91 multi-parent (merged) models. It is a different model family from the SmolLM2 family used by ai-provenance-registry. The selection evidence is in `docs/measurement_plan.md` §2.4. The base model, depth and size limits are fixed and logged before any gas is measured.
 - **Weight hashes:** the SHA-256 values the Hub publishes for each weight file, so no weights need to be downloaded. For a seeded sample of models, we download the weights and recompute the hashes to confirm they match the Hub's values.
 - **Synthetic depth chain:** a hash-only chain of depth 1–20, labelled as synthetic, used only to measure how cost scales with depth beyond what the real tree contains.
 - **End-to-end file demo:** the existing Iris dataset and two logistic-regression artifacts, used to demonstrate byte-level verification of real files.
@@ -49,9 +49,9 @@ D3 node hash: `h(M_v) = H(h(W_v) ‖ h(D_v) ‖ sort(h(M_p) for every parent p) 
 
 #### **5. Main Evaluation Table Caption**
 
-**Table 1: Cost, Latency, Audit Throughput and Tamper Handling of a Direct On-Chain Registry (D1), an On-Chain Policy Registry (D2), and OPA-Attested Merkle-DAG Anchoring (D3) on the `microsoft/resnet-50` Hugging Face Lineage Tree.**
+**Table 1: Cost, Latency, Audit Throughput and Tamper Handling of a Direct On-Chain Registry (D1), an On-Chain Policy Registry (D2), and OPA-Attested Merkle-DAG Anchoring (D3) on the `TinyLlama/TinyLlama-1.1B-Chat-v1.0` Hugging Face Lineage Tree.**
 
-> **Caption:** All three designs register the same parents-first sequence of models from the real `microsoft/resnet-50` family tree, each in a fresh deployment on a local Anvil chain (Solidity 0.8.24, optimizer 200 runs). A sample is replayed on Sepolia to check that gas matches. Values are reported per design, by lineage depth and by number of parents. Columns:
+> **Caption:** All three designs register the same parents-first sequence of models from the real `TinyLlama/TinyLlama-1.1B-Chat-v1.0` family tree, each in a fresh deployment on a local Anvil chain (Solidity 0.8.24, optimizer 200 runs). A sample is replayed on Sepolia to check that gas matches. Values are reported per design, by lineage depth and by number of parents. Columns:
 >
 > - **Gas per registration (gas units)**, plus deployment gas. Fees in ETH are given only with a stated date and gas price;
 > - **New on-chain state (bytes)** per registration and in total after the whole tree;
