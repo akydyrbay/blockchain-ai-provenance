@@ -1,0 +1,39 @@
+{
+  "input": {
+    "path": "data/hf_tree.csv",
+    "sha256": "7ed7376140aa46d213ef74e1eefe1457666407efa2d151f77f75ad2e3a87062e",
+    "n_models": 2630
+  },
+  "order_rule": "topological (all parents first); ties broken by hf_tree.csv row order",
+  "n_plan": 2317,
+  "plan_per_depth": {
+    "0": 37,
+    "1": 2129,
+    "2": 144,
+    "3": 7
+  },
+  "n_multi_parent": 62,
+  "max_parents": 7,
+  "n_roots": 37,
+  "licence_classes": {
+    "permissive": 1330,
+    "unknown": 932,
+    "restricted-use": 45,
+    "non-commercial": 7,
+    "copyleft": 3
+  },
+  "allowlist_size": 146,
+  "n_publishers": 1268,
+  "excluded_per_reason": {
+    "hub:duplicate_weights": 221,
+    "hub:no_weight_hashes": 45,
+    "hub:ancestor_excluded": 43,
+    "hub:info_unavailable": 4
+  },
+  "n_natural_violations": 0,
+  "unlisted_licences": {
+    "cc": 1
+  },
+  "fallback_rule": "switch to microsoft/phi-2 if n_multi_parent < 30 (measurement plan \u00a72.4)",
+  "fallback_needed": false
+}

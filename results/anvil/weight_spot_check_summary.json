@@ -1,0 +1,96 @@
+{
+  "started_at_utc": "2026-11-17T19:34:01+00:00",
+  "finished_at_utc": "2026-11-17T19:48:16+00:00",
+  "tree": "data/hf_tree.csv",
+  "tree_sha256": "7ed7376140aa46d213ef74e1eefe1457666407efa2d151f77f75ad2e3a87062e",
+  "seed": 42,
+  "n_models": 10,
+  "n_files": 23,
+  "n_files_checked": 23,
+  "n_files_matching": 23,
+  "n_operational_errors": 0,
+  "bytes_downloaded": 18706551018,
+  "all_match": true,
+  "models": [
+    {
+      "model_id": "Dylan-vrl/ProjectElrondv1",
+      "n_files": 1,
+      "weights_hash_csv": "0x96f14d206afda2b5586e0a2a84c5167bd4d702c6e2e6ea31b24bf6d8133589ff",
+      "weights_hash_local": "0x96f14d206afda2b5586e0a2a84c5167bd4d702c6e2e6ea31b24bf6d8133589ff",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "h4rz3rk4s3/TinyNewsLlama-1.1B",
+      "n_files": 1,
+      "weights_hash_csv": "0x8ea2ca5e9e1fa0eaabbdefa2fa5f1404ec276aa5831ebb9ec2d061f68684a179",
+      "weights_hash_local": "0x8ea2ca5e9e1fa0eaabbdefa2fa5f1404ec276aa5831ebb9ec2d061f68684a179",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "tmd-rahul/tinyllama_qlora_correct_data_v1",
+      "n_files": 2,
+      "weights_hash_csv": "0x9980318ae26a6ed87acab7ce4cd9cf9bcd811a0a46bdde81ef1ea79cc2e4f72f",
+      "weights_hash_local": "0x9980318ae26a6ed87acab7ce4cd9cf9bcd811a0a46bdde81ef1ea79cc2e4f72f",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "fragger246/taxman2",
+      "n_files": 1,
+      "weights_hash_csv": "0x364d9ff48bf5e48099ef3a69f8200a0a98257ad9497c8efcd08d1a032a3721e3",
+      "weights_hash_local": "0x364d9ff48bf5e48099ef3a69f8200a0a98257ad9497c8efcd08d1a032a3721e3",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "Bepemin/4e6f47cb-d8dd-4c78-a151-39f091571c7b",
+      "n_files": 2,
+      "weights_hash_csv": "0x2511445bf29ee61bf0d06e862161e17db2936033c67fa700300c694227f28af7",
+      "weights_hash_local": "0x2511445bf29ee61bf0d06e862161e17db2936033c67fa700300c694227f28af7",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "preethu19/tiny-chatbot-dpo",
+      "n_files": 1,
+      "weights_hash_csv": "0xa0258958882aa034e2564524b55ae5cfbc5d4d33d40263c35fe9ae644730cd9b",
+      "weights_hash_local": "0xa0258958882aa034e2564524b55ae5cfbc5d4d33d40263c35fe9ae644730cd9b",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "SAMMY007/tiny-chatbot-dpo",
+      "n_files": 1,
+      "weights_hash_csv": "0xd908bc6214213d6570582df089a41a4a5db9de9b3734268fb6b04badd218b869",
+      "weights_hash_local": "0xd908bc6214213d6570582df089a41a4a5db9de9b3734268fb6b04badd218b869",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "mradermacher/medical-tinyllama-GGUF",
+      "n_files": 12,
+      "weights_hash_csv": "0x1d35c12869ae9c97b8d40527b8c644851a307880237a11c61a41c13bd82ffef7",
+      "weights_hash_local": "0x1d35c12869ae9c97b8d40527b8c644851a307880237a11c61a41c13bd82ffef7",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "Shadow09/my-tiny-chatbot",
+      "n_files": 1,
+      "weights_hash_csv": "0xe21f98da06feda3990670205951013a307045b0b7cec2450c65ece33e31c222c",
+      "weights_hash_local": "0xe21f98da06feda3990670205951013a307045b0b7cec2450c65ece33e31c222c",
+      "weights_hash_match": true,
+      "error": ""
+    },
+    {
+      "model_id": "darik-aim/DARIKO-AI-V1",
+      "n_files": 1,
+      "weights_hash_csv": "0x98adf9921bb55dbd7e5e500c6339ed46c960829c5812741cf9511ecafa4a1ffc",
+      "weights_hash_local": "0x98adf9921bb55dbd7e5e500c6339ed46c960829c5812741cf9511ecafa4a1ffc",
+      "weights_hash_match": true,
+      "error": ""
+    }
+  ]
+}

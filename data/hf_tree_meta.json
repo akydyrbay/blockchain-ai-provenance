@@ -1,0 +1,98 @@
+{
+  "base_model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "pulled_at_utc": "2026-11-17T18:37:37+00:00",
+  "finished_at_utc": "2026-11-17T19:32:42+00:00",
+  "limits": {
+    "max_models": 6000,
+    "max_depth": 12
+  },
+  "truncated": false,
+  "relations_followed": [
+    "finetune",
+    "adapter",
+    "quantized",
+    "merge"
+  ],
+  "weight_extensions": [
+    ".safetensors",
+    ".bin",
+    ".pt",
+    ".pth",
+    ".h5",
+    ".msgpack",
+    ".onnx",
+    ".gguf",
+    ".ckpt",
+    ".keras",
+    ".tflite",
+    ".ot"
+  ],
+  "weights_hash_rule": "SHA-256 over sorted 'path:sha256\\n' lines of weight files",
+  "data_ref_hash_rule": "SHA-256 over sorted dataset names joined by '\\n'; 'dataset:undeclared' if none",
+  "meta_hash_rule": "SHA-256 of canonical JSON {id, repo_sha, license, relations: {parent: relation}} (sorted keys, no spaces)",
+  "requests": 5218,
+  "rate_limit_waits": 0,
+  "python": "3.11.15",
+  "requests_version": "2.34.2",
+  "summary": {
+    "n_models": 2630,
+    "n_external_roots": 44,
+    "max_depth": 4,
+    "models_per_depth": {
+      "0": 45,
+      "1": 2388,
+      "2": 176,
+      "3": 19,
+      "4": 2
+    },
+    "models_per_relation": {
+      "adapter": 1656,
+      "finetune": 608,
+      "quantized": 262,
+      "merge": 259,
+      "external_root": 44,
+      "unspecified": 30,
+      "root": 1
+    },
+    "models_per_status": {
+      "ok": 2317,
+      "duplicate_weights": 221,
+      "no_weight_hashes": 45,
+      "ancestor_excluded": 43,
+      "info_unavailable": 4
+    },
+    "n_multi_parent": 91,
+    "n_multi_parent_registrable": 62,
+    "share_with_weights_hash": 0.9814,
+    "share_declaring_datasets": 0.1627,
+    "share_declaring_license": 0.576,
+    "licenses": {
+      "apache-2.0": 1347,
+      "(none)": 1115,
+      "mit": 96,
+      "other": 50,
+      "cc-by-nc-sa-4.0": 5,
+      "cc-by-nc-4.0": 3,
+      "gpl-3.0": 3,
+      "llama3": 2,
+      "unknown": 2,
+      "cc": 1,
+      "bigcode-openrail-m": 1,
+      "llama2": 1,
+      "gpl": 1,
+      "llama3.2": 1,
+      "llama3.1": 1,
+      "openrail": 1
+    },
+    "mean_children_of_parents": 20.25,
+    "n_registrable": 2317,
+    "share_registrable": 0.881,
+    "registrable_per_depth": {
+      "0": 37,
+      "1": 2129,
+      "2": 144,
+      "3": 7
+    },
+    "n_with_parents": 2585
+  }
+}

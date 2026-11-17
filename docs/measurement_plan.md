@@ -23,7 +23,7 @@ only in *where* the rules run and *what* is stored on-chain.
 | Item | Decision |
 |---|---|
 | Source | Hugging Face Hub API, through `scripts/hf_lineage.py` |
-| Base model | `TinyLlama/TinyLlama-1.1B-Chat-v1.0` (chosen by the trial pull and survey in §2.4; to be confirmed by both team members) |
+| Base model | `TinyLlama/TinyLlama-1.1B-Chat-v1.0` (chosen by the trial pull and survey in §2.4; confirmed by the team) |
 | Relations followed | finetune, adapter, quantized, merge (`base_model:` tags and card `base_model`) |
 | Limits | `--max-models 6000 --max-depth 12`. The walk must finish untruncated (`"truncated": false`); if not, raise the limit and log it here before measuring |
 | Final pull | Run once into `data/`, then committed. Every experiment reads the committed `data/hf_tree.csv`, never the live Hub |
@@ -35,7 +35,7 @@ only in *where* the rules run and *what* is stored on-chain.
 |---|---|
 | `weightsHash` | SHA-256 over the sorted lines `path:sha256\n` of every weight file the Hub publishes an LFS SHA-256 for. Weight files: `.safetensors .bin .pt .pth .h5 .msgpack .onnx .gguf .ckpt .keras .tflite .ot`, excluding `training_args`, `optimizer`, `scheduler`, `scaler`, `rng_state*`, `trainer_state` and anything under `runs/`, `checkpoint-*/`, `logs/` |
 | `dataHash` | SHA-256 over the sorted declared dataset names joined by `\n`. If none are declared: SHA-256 of the fixed string `dataset:undeclared` |
-| `metaHash` | SHA-256 of the canonical JSON `{"id", "repo_sha", "license", "relations"}` (sorted keys, no spaces) |
+| `metaHash` | SHA-256 of the canonical JSON `{"id", "repo_sha", "license", "relations"}` (sorted keys, no spaces, UTF-8). `relations` maps each parent ID to its relation (`{}` for every root, including external roots); `license` is the lower-cased ID as in `hf_tree.csv`, `""` if none |
 | D3 node hash | `h(M) = SHA-256(weightsHash ‖ dataHash ‖ sorted parent node hashes ‖ metaHash)` |
 
 The dataset hash covers dataset **names**, not content, because the Hub publishes no
@@ -62,6 +62,14 @@ rule wins): `cycle`, `info_unavailable`, `no_weight_hashes`, `duplicate_weights`
   incompatible with a parent). They are left out of the main replay and reported in SQ3
   as real-world cases: refused by D2 and D3, accepted by D1.
 - Excluded models are counted by reason in the paper; none are silently dropped.
+- `scripts/registration_plan.py` applies these rules to the committed tree and writes
+  `data/registration_plan.csv` (the plan, with `plan_index`, `parent_indices`,
+  `licence_class` and `publisher` = Hub namespace), `data/plan_exclusions.csv` (every
+  excluded model with stage, reason and detail) and `data/registration_plan_meta.json`.
+- Duplicate weights are resolved before policy (first `ok` model in depth, then BFS
+  order, keeps the hash). A duplicate is therefore not re-admitted if the model that
+  kept the hash later fails a policy rule. In the final pull no registrable model fails
+  P5, so this case does not occur.
 
 ### 2.4 Trial pull result (17 November 2026)
 
@@ -104,13 +112,49 @@ models.
 
 **Consequences for the design of the study:**
 - Real trees are shallow in every candidate: at most 2 % of models sit at depth ≥ 3.
-  Real-tree results are therefore reported by depth 0–4, and **depth scaling (SQ1, SQ2)
-  is measured on the synthetic chain** (§2.5), always labelled synthetic.
+  Real-tree results are therefore reported by depth (0–3 in the final plan, §2.6), and
+  **depth scaling (SQ1, SQ2) is measured on the synthetic chain** (§2.5), always
+  labelled synthetic.
 - 78 of the 91 multi-parent models have at least one parent outside the family. These
   parents become extra roots (§2.3).
-- Still to be measured at the final pull (Phase C): weight-hash coverage, registrable
-  share and number of registrable merges. The final pull needs about 2 requests per model
-  (≈ 5,200 requests, ≈ 55 minutes without a Hub token).
+- Weight-hash coverage, registrable share and registrable merges were measured at the
+  final pull (§2.6).
+
+### 2.6 Final pull (17 November 2026)
+
+`data/hf_tree.csv` and `data/hf_tree_meta.json`: pulled 2026-11-17 18:37–19:32 UTC,
+limits 6,000 models / depth 12, **not truncated**, 5,218 requests, no rate-limit waits.
+SHA-256 of `hf_tree.csv`: `7ed7376140aa46d213ef74e1eefe1457666407efa2d151f77f75ad2e3a87062e`.
+
+| Item | Value |
+|---|---|
+| Models | 2,630 = 2,586 in the family (matches the survey) + 44 external roots |
+| Per depth | 0: 45 · 1: 2,388 · 2: 176 · 3: 19 · 4: 2 |
+| Relations (per parent link) | adapter 1,656, finetune 608, quantized 262, merge 259, unspecified 30 |
+| Multi-parent | 91 (62 registrable); at most 7 parents |
+| Weight hashes published | 98.1 % |
+| Status | ok 2,317 · duplicate_weights 221 · no_weight_hashes 45 · ancestor_excluded 43 · info_unavailable 4 |
+| Licences | apache-2.0 1,347, none 1,115, mit 96, other 50, all others ≤ 5 |
+
+Duplicate weights are real re-uploads (for example identical copies of a GGUF
+quantization, or adapter repositories with byte-identical weights).
+
+**Weight-hash spot check** (`scripts/weight_spot_check.py`, seed 42, 17 November 2026,
+`results/anvil/weight_spot_check.csv` and `_summary.json`): 10 models, 23 weight files,
+18.7 GB streamed at the pulled revisions. **23/23 local SHA-256 values equal the Hub
+values, and 10/10 weights hashes recomputed from the downloaded files equal
+`hf_tree.csv`.** No operational errors.
+
+**Policy-clean plan** (`data/registration_plan.csv`): **2,317 models**, per depth
+0: 37 · 1: 2,129 · 2: 144 · 3: 7; **62 multi-parent models** (≥ 30, so the phi-2
+fallback is not needed); 37 roots; 146 distinct dataset hashes (the P3 allowlist);
+1,268 Hub namespaces (publisher accounts). Licence classes: permissive 1,330, unknown
+932, restricted-use 45, non-commercial 7, copyleft 3. **Natural violations: 0.** The
+only licence conflict in the tree (`s3nh/TinyLLama-4x1.1B-MoE`, MIT, merging a
+`cc-by-nc-4.0` parent) is already excluded as `ancestor_excluded`, because another
+parent is not registrable. SQ3 therefore relies on the controlled attacks only. The
+plan's depth-4 models are excluded (ancestor not registrable), so the real-tree results
+cover depths 0–3.
 
 ### 2.5 Synthetic workloads
 
@@ -118,6 +162,11 @@ Labelled **synthetic** in every figure and table.
 
 - **Depth chain:** a linear chain of depth 1–20 (21 models) with hash-only records.
 - **Fan-in:** one model with 1, 2, 4 and 8 parents (all registered roots).
+- Both are written by `scripts/synthetic_chain.py` to `data/synthetic_chain.csv`
+  (33 rows: chain depth 0–20, 8 fan-in roots, 4 fan-in children). IDs start with
+  `synthetic/`, a `workload` column says `chain` or `fanin`, hashes follow §2.2, weights
+  hashes are derived from the model ID, licence `apache-2.0`, dataset
+  `synthetic/dataset`.
 
 ## 3. Policy rules and configuration
 
@@ -131,7 +180,7 @@ before any measurement.
 | P2 | `weightsHash` and `dataHash` are non-zero; `weightsHash` is not already registered | — |
 | P3 | `dataHash` is on the dataset allowlist | Allowlist = every `dataHash` in the policy-clean plan (including the `dataset:undeclared` sentinel). V1 uses hashes not on it |
 | P4 | The sender holds the publisher role | One publisher account per Hub namespace (the part of the model ID before `/`), derived deterministically from seed 42; the admin grants all of them the role before the replay. V2 uses an account without the role |
-| P5 | The licence is compatible with every parent's licence (table below) | — |
+| P5 | The licence is compatible with every parent's licence (table below) | Python reference: `licence_class` and `p5_violation` in `scripts/registration_plan.py` |
 
 **Licence classes for P5** (strictness order; a child may not be in a less strict class
 than its strictest parent):
@@ -145,7 +194,15 @@ than its strictest parent):
 | no-derivatives | — | `cc-by-nd-*`, `cc-by-nc-nd-*`: any child of such a parent fails P5 |
 | unknown | — | No licence, or `unknown`. Allowed (cannot be checked) and counted separately |
 
-Licence IDs not in this table are classed as `restricted-use` and listed in the paper.
+Licence IDs not in this table are classed as `restricted-use` and listed in the paper
+(final pull: only `cc`, one model).
+
+P5 is evaluated in this order: (1) any no-derivatives parent → deny; (2) child licence
+unknown → allow; (3) parents with unknown licences are ignored; (4) deny if the child's
+rank is lower than the highest-ranked remaining parent. A no-derivatives licence on the
+child itself has rank 4 (strictest), so it never fails step 4. Patterns are matched in
+the table's order with no-derivatives first, so `cc-by-nc-nd-*` is never classed as
+non-commercial.
 
 **Ownership:** D1 and D2 record the publishing account as owner; D3 records the batch
 submitter and the attested publisher inside the node.
@@ -255,3 +312,8 @@ On-chain gas and off-chain time are never plotted on the same axis.
   before any measurement. Base model `microsoft/resnet-50` (used for the trial) replaced by
   `TinyLlama/TinyLlama-1.1B-Chat-v1.0` for the reasons in §2.4; limits set to 6,000 models /
   depth 12.
+- 2026-11-17: Phase C, still before any measurement. Final pull committed (§2.6). Made
+  precise three rules the first version left open: the `relations` field of `metaHash`
+  (§2.2), the P5 evaluation order (§3) and the handling of duplicates (§2.3). Added the
+  registration plan and synthetic workload files. Real-tree depth coverage is 0–3 in
+  the plan (was expected 0–4).

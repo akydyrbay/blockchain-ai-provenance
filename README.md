@@ -98,6 +98,18 @@ For v2, use `--version 2` and the files in `models/v2/`. The CLI uses human vers
 
 For Anvil, pass `--rpc-url http://127.0.0.1:8545 --chain-id 31337` to the verifier. Its default chain is Sepolia (`11155111`). The verifier reads local files; it does not download metadata from registered URIs.
 
+## Hugging Face lineage data
+
+The comparative study replays the Hub family tree of `TinyLlama/TinyLlama-1.1B-Chat-v1.0`. The rules (hashes, exclusions, policy configuration) are fixed in the [measurement plan](docs/measurement_plan.md). The pulled tree is committed, so experiments never read the live Hub.
+
+```bash
+python scripts/hf_lineage.py            # Hub walk -> data/hf_tree.csv, data/hf_tree_meta.json (~1 h; set HF_TOKEN to go faster)
+python scripts/registration_plan.py     # policy-clean, parents-first plan -> data/registration_plan.csv, plan_exclusions.csv
+python scripts/synthetic_chain.py       # synthetic depth chain 0-20 and fan-in 1/2/4/8 -> data/synthetic_chain.csv
+python scripts/weight_spot_check.py --dry-run   # show the seeded 10-model sample and its download size
+python scripts/weight_spot_check.py     # download and hash it -> results/anvil/weight_spot_check.csv
+```
+
 ## Transaction measurements
 
 Save the contract address, chain ID, transaction hashes, block numbers, UTC dates, and tool versions. Deployment, model registration, v1 registration, and v2 registration are separate transactions.

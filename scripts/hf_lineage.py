@@ -7,7 +7,7 @@ the SHA-256 values the Hub publishes for weight files. No weights are downloaded
 
 Writes:
   <out>/hf_tree.csv        one row per model: parents, relations, depth, licence,
-                           declared datasets, weights hash, status
+                           declared datasets, weights/dataset/metadata hashes, status
   <out>/hf_tree_meta.json  pull time, limits, whether the walk was truncated,
                            request counts, library versions, summary statistics
 
@@ -51,7 +51,7 @@ SKIPPED_DIRS = re.compile(r'(^|/)(runs|checkpoint-[^/]+|logs|\.ipynb_checkpoints
 ZERO = '0x' + '00' * 32
 UNDECLARED_DATASETS = 'dataset:undeclared'
 FIELDS = ['model_id', 'depth', 'bfs_depth', 'n_parents', 'parents', 'relations', 'license',
-          'datasets', 'data_ref_hash', 'n_weight_files', 'weights_hash', 'repo_sha',
+          'datasets', 'data_ref_hash', 'n_weight_files', 'weights_hash', 'meta_hash', 'repo_sha',
           'created_at', 'library', 'pipeline_tag', 'status']
 
 
@@ -184,6 +184,15 @@ def weights_hash(files: list[tuple[str, str]]) -> str:
 def data_ref_hash(datasets: list[str]) -> str:
     """SHA-256 over sorted dataset names, or over a fixed sentinel if none are declared."""
     return sha256_hex('\n'.join(datasets) if datasets else UNDECLARED_DATASETS)
+
+
+def meta_hash(model_id: str, repo_sha: str, licence: str, relations: dict[str, str]) -> str:
+    """SHA-256 of canonical JSON {id, repo_sha, license, relations} (sorted keys, no spaces).
+
+    `relations` maps each parent to its relation; it is empty for every root.
+    """
+    record = {'id': model_id, 'repo_sha': repo_sha, 'license': licence, 'relations': relations}
+    return sha256_hex(json.dumps(record, sort_keys=True, separators=(',', ':'), ensure_ascii=False))
 
 
 def walk(hub: Hub, base: str, max_models: int, max_depth: int):
@@ -365,6 +374,8 @@ def main() -> None:
         files = weight_hashes(info) if info else []
         datasets = datasets_of(entry)
         external = bfs_depth[m] is None
+        licence = licence_of(entry)
+        repo_sha = (info or {}).get('sha', '')
         rows[m] = {
             'model_id': m,
             'depth': depth[m],
@@ -372,12 +383,13 @@ def main() -> None:
             'n_parents': len(parents[m]),
             'parents': ';'.join(parents[m]),
             'relations': 'external_root' if external else ';'.join(relations[m][p] for p in parents[m]),
-            'license': licence_of(entry),
+            'license': licence,
             'datasets': ';'.join(datasets),
             'data_ref_hash': data_ref_hash(datasets),
             'n_weight_files': len(files),
             'weights_hash': weights_hash(files),
-            'repo_sha': (info or {}).get('sha', ''),
+            'meta_hash': meta_hash(m, repo_sha, licence, relations[m]),
+            'repo_sha': repo_sha,
             'created_at': entry.get('createdAt', ''),
             'library': entry.get('library_name', '') or '',
             'pipeline_tag': entry.get('pipeline_tag', '') or '',
@@ -408,6 +420,8 @@ def main() -> None:
         'weights_hash_rule': "SHA-256 over sorted 'path:sha256\\n' lines of weight files",
         'data_ref_hash_rule': f"SHA-256 over sorted dataset names joined by '\\n'; "
                               f"'{UNDECLARED_DATASETS}' if none",
+        'meta_hash_rule': "SHA-256 of canonical JSON {id, repo_sha, license, relations: "
+                          "{parent: relation}} (sorted keys, no spaces)",
         'requests': hub.requests,
         'rate_limit_waits': hub.waits,
         'python': platform.python_version(),
