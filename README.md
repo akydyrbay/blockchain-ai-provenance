@@ -50,6 +50,8 @@ forge test -vv
 The repository includes the training CSV, both model versions, and their metadata. Use those preserved files for verification. `python scripts/train_demo.py` regenerates them and may change their hashes.
 
 ```bash
+python scripts/check_artifacts.py      # preserved files still match their hashes
+python scripts/record_environment.py   # writes results/validation/environment.json
 python scripts/hash_file.py models/v1/model.joblib
 python scripts/tamper_demo.py data/iris_train.csv
 python scripts/experiment_integrity.py \
@@ -62,7 +64,7 @@ python scripts/benchmark_hashing.py \
 python scripts/plot_results.py
 ```
 
-These commands compare against local baseline hashes and regenerate experiment outputs. They do not query the blockchain. The committed integrity run detected 150/150 modifications and accepted 5/5 original files; environment details are in [results/environment.json](results/environment.json).
+How the data and models were produced is documented in [docs/iris-dataset.md](docs/iris-dataset.md). These commands compare against local baseline hashes and regenerate experiment outputs. They do not query the blockchain. The committed integrity run detected 150/150 modifications and accepted 5/5 original files; environment details are in [results/environment.json](results/environment.json).
 
 ## Blockchain workflow
 

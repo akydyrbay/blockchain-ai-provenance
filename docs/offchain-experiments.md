@@ -27,6 +27,9 @@ when comparing against their hashes or future blockchain records.
 ## Evidence
 
 - results/artifact_hashes.txt: hashes of preserved artifacts.
+- docs/iris-dataset.md: dataset source, split, CSV format, and model parameters.
+- results/validation/artifact_check.log: output of `python scripts/check_artifacts.py` (manifest, metadata, and dataset-shape checks).
+- results/validation/environment.json: output of `python scripts/record_environment.py` (Python, OS, CPU, compiler settings, Foundry/OPA, packages).
 - results/integrity.csv: individual clean and tampered observations.
 - results/integrity_summary.log: observed detection totals.
 - results/hash_benchmark.csv: individual hashing measurements.
