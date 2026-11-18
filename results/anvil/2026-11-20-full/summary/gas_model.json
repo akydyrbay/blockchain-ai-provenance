@@ -1,0 +1,56 @@
+{
+  "D1": {
+    "n": 2317,
+    "rank": 4,
+    "columns": [
+      "intercept",
+      "uri_words",
+      "n_parents",
+      "is_root"
+    ],
+    "coefficients": [
+      240378.03734169225,
+      78611.89244318928,
+      31988.712576414873,
+      -409.2578054848052
+    ],
+    "r_squared": 0.8405817138883658,
+    "largest_absolute_residual": 50151.03226727911
+  },
+  "D2": {
+    "n": 2317,
+    "rank": 4,
+    "columns": [
+      "intercept",
+      "uri_words",
+      "n_parents",
+      "is_root"
+    ],
+    "coefficients": [
+      276847.52761844767,
+      78141.19677281303,
+      39735.63233353417,
+      -2109.0182846201687
+    ],
+    "r_squared": 0.7520520517708719,
+    "largest_absolute_residual": 61385.57937676809
+  },
+  "D3": {
+    "n": 2317,
+    "rank": 4,
+    "columns": [
+      "intercept",
+      "uri_words",
+      "n_parents",
+      "is_root"
+    ],
+    "coefficients": [
+      79566.50036971911,
+      7.442425467815596,
+      0.5796886395694583,
+      463.63328664393725
+    ],
+    "r_squared": 0.026723329031658416,
+    "largest_absolute_residual": 16638.09664176569
+  }
+}

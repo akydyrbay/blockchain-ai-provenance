@@ -1,0 +1,41 @@
+{
+  "D1": {
+    "n": 33,
+    "rank": 3,
+    "columns": [
+      "intercept",
+      "uri_words",
+      "n_parents",
+      "is_root"
+    ],
+    "coefficients": null,
+    "r_squared": null,
+    "largest_absolute_residual": null
+  },
+  "D2": {
+    "n": 33,
+    "rank": 3,
+    "columns": [
+      "intercept",
+      "uri_words",
+      "n_parents",
+      "is_root"
+    ],
+    "coefficients": null,
+    "r_squared": null,
+    "largest_absolute_residual": null
+  },
+  "D3": {
+    "n": 33,
+    "rank": 3,
+    "columns": [
+      "intercept",
+      "uri_words",
+      "n_parents",
+      "is_root"
+    ],
+    "coefficients": null,
+    "r_squared": null,
+    "largest_absolute_residual": null
+  }
+}
