@@ -1,0 +1,50 @@
+\begin{table}[t]
+\centering
+\caption{Anvil registration cost on the full TinyLlama workload. Gas and
+new state are means per model. Setup and deployment are reported
+separately in the repository.}
+\label{tab:registration}
+\begin{tabular}{lrrr}
+\toprule
+Design & Tx count & Gas/model & Bytes/model \\
+\midrule
+\input{registration_rows}
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Median local timing and throughput on the full TinyLlama
+workload. D1 has no separate policy measurement.}
+\label{tab:timing}
+\begin{tabular}{lrrr}
+\toprule
+Design & Policy (ms) & Verify (ms) & Audit (models/s) \\
+\midrule
+\input{timing_rows}
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:registration} compares the same registration workload
+across five configurations. D2 adds policy state and checks to the
+direct registry. D3 stores one commitment and a compact batch record per
+transaction. A larger batch spreads that transaction and state cost
+across more models. The batch approach moves policy evaluation and the
+record index to the attester. These results measure the on-chain costs
+of the implemented designs under the stated trust assumptions.
+New state per model is amortized across models in an anchored batch.
+
+Table~\ref{tab:timing} reports the median policy and verification times
+for the sampled records and the median throughput across the five audit
+passes. D2 policy timing includes simulating the registration call.
+D3 policy timing includes the OPA HTTP round trip. Verification timing
+includes retrieving state through local RPC and checking the lineage
+against the expected commitments.
+
+The controlled integrity checks accepted all clean records in each
+configuration. Verification rejected every test with changed weights or
+dataset references, as well as every applicable substitution of an
+existing parent. All configurations rejected candidates that named an
+unknown parent. D2 and D3 also denied the sampled unlisted dataset
+references and unauthorized publishers. The Iris workflow independently
+verified the preserved files against immutable records for two versions.
