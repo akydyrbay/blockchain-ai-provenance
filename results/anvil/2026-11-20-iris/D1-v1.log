@@ -1,0 +1,13 @@
+Chain 31337 | registry 0x5FbDB2315678afecb367f032d93F642f64180aa3 | model 0 (iris-logistic-regression)
+Current owner 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 | version count 1 | checked version 1 (index 0)
+Recorded publisher 0x70997970C51812dc3A010C7d01b50e0d17dc79C8 | timestamp 1795182422
+DATA     PASS  local=0x80c30023defb7b86f4ed81d6692c97db5fa997738010235f33cfd4a9939699b9  chain=0x80c30023defb7b86f4ed81d6692c97db5fa997738010235f33cfd4a9939699b9
+ARTIFACT PASS  local=0x3348384082600d1c796a3c76ad6dcb52cf5ffa4fd68458e48f3bb66ff058e1b1  chain=0x3348384082600d1c796a3c76ad6dcb52cf5ffa4fd68458e48f3bb66ff058e1b1
+METADATA PASS  local=0x2a37fe2125d7894da60e5d98a343530efa489e28c78e9bddf876e1b14a14ef65  chain=0x2a37fe2125d7894da60e5d98a343530efa489e28c78e9bddf876e1b14a14ef65
+metadata version: PASS
+metadata parent_version: PASS
+metadata dataset hash: PASS
+metadata artifact hash: PASS
+metadata model name: PASS
+metadata training code: PASS
+VERIFIED

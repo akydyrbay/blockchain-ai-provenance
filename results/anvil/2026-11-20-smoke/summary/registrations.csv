@@ -1,0 +1,6 @@
+design,batch_size,models,registration_transactions,deployment_gas,configuration_gas,registration_gas,mean_gas_per_model,registration_new_bytes,mean_new_bytes_per_model
+D1,1,4,4,1500381,0,2329930,582482.5,3040,760.0
+D2,1,4,4,1923607,120553,2470914,617728.5,3168,792.0
+D3,1,4,4,625888,0,335456,83864.0,288,72.0
+D3,16,4,1,625888,0,96690,24172.5,96,24.0
+D3,128,4,1,625888,0,96690,24172.5,96,24.0
