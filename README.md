@@ -126,6 +126,43 @@ python scripts/plot_results.py
 
 The plotter creates `figures/hash_time.png` and, when `results/gas.csv` exists, `figures/transaction_gas.png`. The gas chart is labeled for Sepolia; keep local simulation results separate. Gas used and hashing time measure different costs.
 
+## Comparative Anvil replay
+
+Install OPA 1.4.2 alongside Foundry and the pinned Python environment.
+The runner starts both services on loopback, uses fresh Anvil instances,
+and derives deterministic accounts for local testing. It does not use `.env`.
+
+```bash
+opa test policy
+python scripts/replay.py --mode smoke --out results/anvil/my-smoke
+python scripts/replay.py --mode full --out results/anvil/my-full
+python scripts/replay.py --mode synthetic --out results/anvil/my-synthetic
+python scripts/summarize_replay.py results/anvil/my-full --out results/anvil/my-full/summary
+```
+
+The saved November 20 results include the [full TinyLlama benchmark](results/anvil/2026-11-20-full/summary/registrations.csv)
+and the [synthetic workload](results/anvil/2026-11-20-synthetic/summary/depth_scaling.csv).
+The smoke run uses a merge and all its ancestors. A completed full or synthetic run
+includes receipt gas and storage diffs, policy and lineage timings, an in-contract
+verification gas probe, and five full audit passes. The manifest records the
+input, source file hashes, tools and run parameters. Registration gas excludes
+deployment and policy configuration, which get their own rows. The D1/D2 probe
+times the on-chain lineage query. The D3 probe times the inclusion and signature
+checks. Use the wall-clock results for end-to-end verification.
+
+The D3 attester is driven by a single local replay process with an in-memory index.
+A persistent audit data store and publisher authentication are deployment concerns.
+The licence policy compares the declared classes from the benchmark plan.
+
+The [LaTeX draft](paper/main.tex) uses IEEEtran.
+
+Use `python scripts/replay.py --mode checks --out results/anvil/my-checks` to
+check altered weights, dataset references and parent links against a local
+replay of the full workload. Each applicable case compares an altered input
+with the original registration. Use
+`python scripts/integration_demo.py --out results/anvil/my-iris` for the
+preserved Iris byte checks through the D1/D2 version interface.
+
 ## License
 
 [MIT](LICENSE).

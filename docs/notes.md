@@ -144,3 +144,19 @@ Response: `OK`
 Details: `Pass - Verified`
 Contract successfully verified
 ```
+
+## Comparative prototype validation
+
+`results/validation/comparative/` contains the November 20 Foundry and OPA
+test output, Foundry coverage, the local environment inventory, and the
+Slither 0.11.6 results for D1, D2 and D3. The new registry traverses strictly
+earlier model IDs. Slither flagged the assembly used to set the returned
+ancestor array's length. In D3 it flagged the exact zero-root and
+Merkle-root comparisons and also reported timestamp dependencies on calls
+that read batch storage. Those calls compare roots and validate signatures.
+The timestamp is recorded as batch metadata.
+
+The replay ran with the installed workspace Python and Web3 versions
+recorded in the manifests. The four-model smoke replay also passed with the
+pinned Web3 7.12.1 dependency on Python 3.12. The documented Python 3.11
+environment still needs a clean-clone reproduction check before release.

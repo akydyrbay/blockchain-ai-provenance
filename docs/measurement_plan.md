@@ -317,3 +317,21 @@ On-chain gas and off-chain time are never plotted on the same axis.
   (§2.2), the P5 evaluation order (§3) and the handling of duplicates (§2.3). Added the
   registration plan and synthetic workload files. Real-tree depth coverage is 0–3 in
   the plan (was expected 0–4).
+- 2026-11-20: implemented and exercised the local replay. The registry stores immutable
+  parent model IDs and the audit uses each parent's first version. D1/D2 read the
+  lineage and underlying records in a JSON-RPC batch per target. D3 leaves bind a
+  node hash and publisher address, and the batch signature binds the submitter,
+  batch ID, root, size, contract and chain. The D1/D2 gas probe covers the
+  on-chain lineage query. The D3 gas probe covers inclusion and signature
+  verification. End-to-end timings include the respective off-chain work.
+  Policy and verification timings use the seeded per-depth sample plus merges.
+  Registration state growth counts registry storage, with policy configuration
+  kept in separate receipt rows. The gas regression uses single-model
+  transactions and reports rank deficiency without estimating coefficients.
+  The run directories contain the raw CSV files and exact input and source hashes.
+  The local admission checks use non-mutating calls on fresh candidate records
+  and sample up to 100 candidates from the committed workload. The separate
+  integrity checks compare clean and changed audit inputs once per applicable
+  record. A different-parent check requires a registered alternative parent
+  earlier in the workload. Revocation is covered by the policy equivalence
+  fixture. Treat the once-per-case timings as descriptive observations.
