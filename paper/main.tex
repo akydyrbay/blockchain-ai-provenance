@@ -1,6 +1,7 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{amsmath}
 \usepackage{booktabs}
+\input{validation_counts}
 
 \title{Where Should Provenance Policy Run? A Comparison of On-Chain Enforcement and Attested Model Lineage}
 \author{\IEEEauthorblockN{Author names to be confirmed}
@@ -87,6 +88,17 @@ D2 and the inclusion and signature checks for D3. The end-to-end timing
 also includes the off-chain work. The verifier uses records already
 available to the local process and the experiment does not time file
 downloads.
+
+The controlled audit tests present each verifier with the original record
+and variants that change its weight or dataset commitment. The parent
+variant substitutes an earlier registered record that is absent from the
+original parent set. It applies to records with a parent and an available
+substitute. The admission tests use the same seeded sample in every
+configuration. Each candidate has a fresh weight hash and varies one
+condition at a time. D1 and D2 simulate registration with
+\texttt{eth\_call}. D3 queries the attester's OPA decision. The tables
+count completed decisions, and the generator checks that every planned
+candidate has exactly one result.
 
 \section{Results}
 % Insert script-generated tables and figures after confirming the run

@@ -41,10 +41,39 @@ D3 policy timing includes the OPA HTTP round trip. Verification timing
 includes retrieving state through local RPC and checking the lineage
 against the expected commitments.
 
-The controlled integrity checks accepted all clean records in each
-configuration. Verification rejected every test with changed weights or
-dataset references, as well as every applicable substitution of an
-existing parent. All configurations rejected candidates that named an
-unknown parent. D2 and D3 also denied the sampled unlisted dataset
-references and unauthorized publishers. The Iris workflow independently
-verified the preserved files against immutable records for two versions.
+\begin{table}[t]
+\centering
+\caption{Audit rejections over applicable cases. Clean rejections
+are false positives.}
+\label{tab:integrity}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrr}
+\toprule
+Design & Clean & Weights & Dataset & Parent \\
+\midrule
+\input{integrity_rows}
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Admission rejections over sampled candidates.}
+\label{tab:admission}
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lrrrr}
+\toprule
+Design & Clean & \shortstack{Unknown\\parent} &
+\shortstack{Unlisted\\dataset} & \shortstack{Unauthorized\\publisher} \\
+\midrule
+\input{admission_rows}
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:integrity} shows that each verifier accepted all clean
+records and detected every tested alteration. Parent substitution covered
+\ParentCaseCount{} of \AuditModelCount{} records (\ParentApplicability{}).
+Table~\ref{tab:admission} shows that all configurations refused an unknown
+parent. D2 and D3 also refused the unlisted dataset references and
+unauthorized publishers. These results describe the supplied fixtures
+and the configured policy. The Iris workflow independently verified the
+preserved files against immutable records for two versions.

@@ -194,7 +194,7 @@ Owner: verification/evaluation lead; contract lead reviews.
 - [x] Run the controlled integrity fixture in `scripts/registry_checks.py` against the committed trees. Test clean records, altered weights, changed dataset references, and a different existing parent for applicable records.
 - [x] Test admission of independent candidates with an unknown parent, an unlisted dataset, or an unauthorized publisher. Use 100 seeded candidates per scenario. Revoked parents are tested in the separate Solidity/OPA equivalence fixture.
 - [x] Save raw outcomes and per-case verification times under [the check runs](results/anvil/2026-11-20-checks/README.md). These are single timing observations per case.
-- [ ] Assemble the publication table of prevention, detection, and applicability rates. Keep operational failures separate from verification results.
+- [x] Generate the paper tables for admission, detection and parent-case applicability from both validation runs. The generator rejects incomplete, duplicate or invalid observations.
 
 ### Phase G — Local integration and end-to-end demo
 

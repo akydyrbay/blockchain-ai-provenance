@@ -16,6 +16,12 @@ python scripts/summarize_replay.py results/anvil/2026-11-20-full --out results/a
 cp results/anvil/2026-11-20-full/summary/{registration_rows,timing_rows}.tex paper/
 ```
 
+Regenerate the integrity and admission tables from both validation runs.
+
+```bash
+python scripts/summarize_validation.py results/anvil/2026-11-20-checks results/anvil/2026-11-20-checks-d3-128 --out paper
+```
+
 For the course hand-in, finish the draft for cross-team review and keep the
 response to that review. Confirm the final author list, reproduce the
 tables and figures from a clean checkout, and clear the final version and
