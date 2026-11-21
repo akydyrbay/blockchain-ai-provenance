@@ -209,6 +209,7 @@ Owner: verification/evaluation lead.
 
 Owner: contract lead; verification/evaluation lead checks independently.
 
+- [x] Freeze the 32-model sample and verify the receipt comparison locally. See the [deployment runbook](docs/deployments.md).
 - [ ] Deploy D1, D2 and D3 to Sepolia; verify the sources on Etherscan.
 - [ ] Replay a fixed prefix of the plan (size set in the measurement plan, including at least one merge model) under all three designs.
 - [ ] Compare `gasUsed` with Anvil row by row → `results/sepolia/chain_check.json`. Report and explain any difference; do not remove it.
