@@ -219,7 +219,8 @@ Owner: contract lead; verification/evaluation lead checks independently.
 Owner: both.
 
 - [ ] Scripts generate every figure, table and quoted number from the raw CSVs (`scripts/make_figures.py`, `make_tables.py`, `make_numbers.py`).
-- [ ] Test the setup from a fresh clone; each team member follows the other's instructions.
+- [x] Test the setup and four-model smoke replay from a [clean Python 3.11 clone](results/validation/clean-checkout-2026-11-21/report.json).
+- [ ] Have each team member reproduce the setup independently.
 - [ ] Review generated files for credentials and machine-specific paths.
 - [ ] Tag the implementation revision and identify the evidence revision.
 - [ ] Prepare a demo: register a subtree under all three designs, show a policy refusal on D2 and an OPA denial on D3, rebuild a lineage to the root, and detect a spoofed parent.
