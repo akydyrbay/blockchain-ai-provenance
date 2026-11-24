@@ -202,7 +202,7 @@ Owner: verification/evaluation lead.
 
 - [x] `scripts/integration_demo.py` replays Iris v1/v2 against D1 and D2 and calls the byte verifier. The smoke replay covers a TinyLlama merge and its ancestors in D1–D3.
 - [x] Check historical v1 after v2, rejection of altered dataset/weights/metadata copies, and ownership transfer through the Iris verifier. Foundry covers unauthorized appends.
-- [ ] Add explicit wrong-chain and missing-model cases to the end-to-end verifier demo.
+- [x] Confirm the Iris verifier rejects a wrong chain and a missing model in both D1 and D2. See the [expanded scenarios](results/validation/iris-2026-11-24/scenarios.csv).
 - [x] Save the Iris [scenario table](results/anvil/2026-11-20-iris/scenarios.csv) and logs. The demo starts and shuts down its local Anvil instance.
 
 ### Phase H — Sepolia check
@@ -210,6 +210,7 @@ Owner: verification/evaluation lead.
 Owner: contract lead; verification/evaluation lead checks independently.
 
 - [x] Freeze the 32-model sample and verify the receipt comparison locally. See the [deployment runbook](docs/deployments.md).
+- [x] Export D3 proof bundles and independently check a merge and its ancestors after reloading local chain state.
 - [ ] Deploy D1, D2 and D3 to Sepolia; verify the sources on Etherscan.
 - [ ] Replay a fixed prefix of the plan (size set in the measurement plan, including at least one merge model) under all three designs.
 - [ ] Compare `gasUsed` with Anvil row by row → `results/sepolia/chain_check.json`. Report and explain any difference; do not remove it.

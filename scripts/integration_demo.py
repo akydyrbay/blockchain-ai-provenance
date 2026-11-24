@@ -37,12 +37,13 @@ def run_demo(url, output):
                 f"iris:v{number}", [sha256_bytes(metadata)],
             ), publisher)
 
-        def verify(scenario, number, expected, data=None, artifact=None, metadata=None):
+        def verify(scenario, number, expected, data=None, artifact=None, metadata=None,
+                   chain_id=31337, model_id=0, diagnostic=None):
             original_artifact, original_metadata = versions[number - 1]
             command = [
                 sys.executable, str(ROOT / "scripts" / "verify.py"),
-                "--rpc-url", url, "--chain-id", "31337", "--contract", registry.address,
-                "--model-id", "0", "--version", str(number), "--data", str(data or dataset),
+                "--rpc-url", url, "--chain-id", str(chain_id), "--contract", registry.address,
+                "--model-id", str(model_id), "--version", str(number), "--data", str(data or dataset),
                 "--artifact", str(artifact or original_artifact), "--metadata", str(metadata or original_metadata),
             ]
             result = subprocess.run(command, capture_output=True, text=True, timeout=30)
@@ -53,6 +54,8 @@ def run_demo(url, output):
             marker = "VERIFIED" if expected == 0 else "NOT VERIFIED"
             if result.returncode != expected or result.stdout.splitlines()[-1:] != [marker]:
                 raise AssertionError(f"{design} {scenario}: see {log}")
+            if diagnostic and diagnostic not in result.stdout:
+                raise AssertionError(f"{design} {scenario}: missing diagnostic in {log}")
 
         send(w3, registry.functions.registerModel(model_name, "iris:models"), owner)
         register(1, owner)
@@ -61,6 +64,8 @@ def run_demo(url, output):
         register(2, successor)
         verify("v2", 2, 0)
         verify("historical-v1", 1, 0)
+        verify("wrong-chain", 1, 1, chain_id=11155111, diagnostic="Wrong chain")
+        verify("missing-model", 1, 1, model_id=1, diagnostic="Model 1 does not exist")
         for scenario, source, argument in (
             ("changed-data", dataset, "data"),
             ("changed-model", versions[1][0], "artifact"),

@@ -7,6 +7,7 @@ import sys
 from pathlib import Path
 
 from web3 import Web3
+from web3.exceptions import ContractCustomError
 from hash_file import sha256_bytes
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,12 +35,21 @@ def main() -> int:
     if not w3.is_connected():
         raise RuntimeError('RPC unreachable')
     if w3.eth.chain_id != args.chain_id:
-        raise RuntimeError(f'Wrong chain: expected {args.chain_id}, got {w3.eth.chain_id}')
+        print(f'Wrong chain: expected {args.chain_id}, got {w3.eth.chain_id}')
+        print('NOT VERIFIED')
+        return 1
 
     compiled_path = ROOT / 'out' / 'ModelRegistry.sol' / 'AIModelRegistry.json'
     abi = json.loads(compiled_path.read_text(encoding='utf-8'))['abi']
     contract = w3.eth.contract(address=Web3.to_checksum_address(args.contract), abi=abi)
-    model_id, name, metadata_uri, owner, created_at = contract.functions.getModel(args.model_id).call()
+    try:
+        model_id, name, metadata_uri, owner, created_at = contract.functions.getModel(args.model_id).call()
+    except ContractCustomError as error:
+        if not str(error.data).startswith(Web3.to_hex(Web3.keccak(text='ModelDoesNotExist(uint256)')[:4])):
+            raise
+        print(f'Model {args.model_id} does not exist')
+        print('NOT VERIFIED')
+        return 1
     version_count = contract.functions.getVersionCount(args.model_id).call()
     version_index = args.version - 1
     record = contract.functions.getVersion(args.model_id, version_index).call()
