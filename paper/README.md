@@ -5,6 +5,17 @@ from `paper/` with IEEEtran installed. Confirm the author names and order,
 write related work from the papers the team read, and add verified BibTeX
 entries. Review the AI disclosure before submitting.
 
+With the pinned requirements installed, check all tracked data artifacts
+in one command from the repository root.
+
+```bash
+python scripts/check_paper.py
+```
+
+The check regenerates the five LaTeX inputs and the figure in a temporary
+directory. It leaves the tracked copies in place and exits with an error
+if any byte differs.
+
 Use the dated [measurement plan](../docs/measurement_plan.md) for the
 experimental protocol and the run manifests for the implementation and
 execution details. Review the draft abstract and conclusion after

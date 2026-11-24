@@ -222,6 +222,7 @@ Owner: both.
 
 - [ ] Scripts generate every figure, table and quoted number from the raw CSVs (`scripts/make_figures.py`, `make_tables.py`, `make_numbers.py`).
 - [x] Test the setup and four-model smoke replay from a [clean Python 3.11 clone](results/validation/clean-checkout-2026-11-21/report.json).
+- [x] Verify that a clean Python 3.11 checkout regenerates all data artifacts included in the current draft. See the [paper check](paper/README.md).
 - [ ] Have each team member reproduce the setup independently.
 - [ ] Review generated files for credentials and machine-specific paths.
 - [ ] Tag the implementation revision and identify the evidence revision.
