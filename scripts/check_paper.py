@@ -23,9 +23,11 @@ def main():
             RESULTS / "2026-11-20-checks-d3-128", "--out", out)
         run("plot_synthetic_scaling.py", RESULTS / "2026-11-20-synthetic",
             "--out", out / "synthetic_scaling.pdf")
+        run("summarize_sepolia.py", RESULTS.parent / "sepolia", "--out", out)
         mismatches = []
         for name in ("registration_rows.tex", "timing_rows.tex", "integrity_rows.tex",
-                     "admission_rows.tex", "validation_counts.tex", "synthetic_scaling.pdf"):
+                     "admission_rows.tex", "validation_counts.tex", "synthetic_scaling.pdf",
+                     "sepolia_rows.tex", "sepolia_counts.tex"):
             tracked = ROOT / "paper" / name
             if tracked.is_file() and filecmp.cmp(out / name, tracked, shallow=False):
                 print(f"PASS: {name}")

@@ -95,3 +95,34 @@ parent. D2 and D3 also refused the unlisted dataset references and
 unauthorized publishers. These results describe the supplied fixtures
 and the configured policy. The Iris workflow independently verified the
 preserved files against immutable records for two versions.
+
+
+\subsection{Public Sepolia replay}
+We replayed a \SepoliaModels-model subset on both networks, using the
+first models in registration order and adding a merge with its missing
+ancestors. On-chain publisher identities matched across the pair. The
+Anvil side used Cancun rules and the public Sepolia side used Glamsterdam.
+
+\begin{table}[t]
+\centering
+\caption{Mean registration gas per model for the \SepoliaModels-model
+sample. Anvil uses Cancun and Sepolia uses Glamsterdam. Deployment
+and D2 policy setup are excluded.}
+\label{tab:sepolia}
+\begin{tabular}{lrr}
+\toprule
+Design & Anvil & Sepolia \\
+\midrule
+\input{sepolia_rows}
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:sepolia} preserves the registration ranking observed on
+Anvil. D3 with larger batches uses the least registration gas per
+model on both networks. Sepolia used more gas for
+\SepoliaHigherGas{} of the \SepoliaPairs{} paired transactions, including
+deployments and policy setup. Glamsterdam's gas schedule changes the
+cost of state creation and other operations. The cross-fork comparison
+combines the effects of the gas schedule and execution environment.
+D3 attestation calldata can also differ because signatures bind to
+the chain ID and anchor address.

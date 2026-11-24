@@ -12,7 +12,7 @@ in one command from the repository root.
 python scripts/check_paper.py
 ```
 
-The check regenerates the five LaTeX inputs and the figure in a temporary
+The check regenerates the seven LaTeX inputs and the figure in a temporary
 directory. It leaves the tracked copies in place and exits with an error
 if any byte differs.
 
@@ -37,6 +37,12 @@ Generate the synthetic depth and fan-in figure from the saved replay.
 
 ```bash
 python scripts/plot_synthetic_scaling.py results/anvil/2026-11-20-synthetic --out paper/synthetic_scaling.pdf
+```
+
+Regenerate the public Sepolia sample table and counts from the paired receipts.
+
+```bash
+python scripts/summarize_sepolia.py results/sepolia --out paper
 ```
 
 For the course hand-in, finish the draft for cross-team review and keep the
