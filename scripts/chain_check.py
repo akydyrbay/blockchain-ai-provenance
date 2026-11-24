@@ -19,6 +19,8 @@ from replay import (
     rpc, server, verify_storage, write_csv,
 )
 
+from verify_anchor import PLAN, proof_bundle
+
 SEPOLIA = 11155111
 CONFIGURATIONS = (("D1", 1, "ModelRegistry", "AIModelRegistry"),
                   ("D2", 1, "PolicyRegistry", "PolicyRegistry"),
@@ -137,6 +139,9 @@ def replay_sample(w3, wallet, attester_key, opa_url, records, output, label):
             valid = all(verify_storage(w3, contract, record, by_index, ids, publishers) for record in records)
         if not valid:
             raise RuntimeError(f"Lineage verification failed on {label} for {design}/{capacity}")
+        if design == "D3":
+            write_json(output / f"{label}_d3_k{capacity}_proofs.json",
+                       proof_bundle(journal.chain, contract.address, records, proofs, publishers))
         print(f"{label}: {design}/{capacity} verified {len(records)} models", flush=True)
     write_csv(output / f"{label}_gas.csv", journal.rows)
     return journal.rows
@@ -185,6 +190,7 @@ def main():
     parser.add_argument("--out", type=Path, required=True, help="New evidence directory")
     parser.add_argument("--opa", default="opa")
     parser.add_argument("--anvil-hardfork", default="cancun")
+    parser.add_argument("--save-anvil-state", action="store_true", help="Export the local chain state for later audit")
     parser.add_argument("--broadcast", action="store_true", help="Send the sample transactions on Sepolia")
     parser.add_argument("--keystore", type=Path, help="Encrypted deployment keystore for --broadcast")
     args = parser.parse_args()
@@ -192,7 +198,7 @@ def main():
         parser.error("--broadcast requires --keystore")
     anvil, forge, opa = map(executable, ("anvil", "forge", args.opa))
     subprocess.run([forge, "build", "--offline"], cwd=ROOT, check=True)
-    path = ROOT / "data/registration_plan.csv"
+    path = PLAN
     records = sample(read_records(path))
 
     if args.broadcast:
@@ -225,8 +231,9 @@ def main():
     write_json(args.out / "manifest.json", manifest)
     with server(lambda port: [opa, "run", "--server", "--log-level", "error", "--addr",
                               f"127.0.0.1:{port}", str(ROOT / "policy/provenance.rego")], opa_ready) as opa_url:
+        state = ["--dump-state", str((args.out / "anvil_state.json").resolve())] if args.save_anvil_state else []
         with server(lambda port: [anvil, "--host", "127.0.0.1", "--port", str(port), "--chain-id", "31337",
-                                  "--hardfork", args.anvil_hardfork, "--silent"],
+                                  "--hardfork", args.anvil_hardfork, "--silent", *state],
                     lambda url: provider(url).is_connected()) as anvil_url:
             local = provider(anvil_url)
             rpc(local, "anvil_setBalance", [wallet.address, hex(10**20)])

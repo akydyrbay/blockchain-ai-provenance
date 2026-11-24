@@ -1,0 +1,678 @@
+{
+  "chain_id": 31337,
+  "anchor": "0x1a3f45acE313EDdbb54dA7a4367b9F62e7F2C6A4",
+  "plan_sha256": "2bf51ea5b5ddbf0d78f79f1de30bcd11b2b5b8a27d41c564d6f640d8261f952d",
+  "records": {
+    "0": {
+      "parents": [],
+      "weights": "0x1affd7521b03656f94328398e9fa947127457d18ace28287ed595b068209b7cf",
+      "dataset": "0x01b23a140cdf3349c806ff4551b37a759504642cc6daae5f73302e0b2fbb558c",
+      "metadata": "0x0976a40b2de28d088138f02b4b08ad5427f846d9494ebaf7d15ee6fa859b6fb0",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x254077593b59571cb38fc3babccc3f98c28f22460c5b6a2d36e783ef2e8abab0",
+        "0x3e1afc832c025ff4c82977d3e92a7114edb57fa41c73c47bdb01ea8631e230a1",
+        "0xca1278f7a32bd664b14217e9d964e2894340f483d995ed4fd8e64745925635d0",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "1": {
+      "parents": [
+        0
+      ],
+      "weights": "0xa43d6b56c9f4e494de94df049ec72956fe72f40a2a7dec0cb76de132f8f3f352",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x2847394a0af60fb64d46efcfd346f33381223fb27e99d9125bc533e50b6895af",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x2add87d5769bc43aa2c4d4daa55076b2a625e3736593436ae19e008e43d108ba",
+        "0x3e1afc832c025ff4c82977d3e92a7114edb57fa41c73c47bdb01ea8631e230a1",
+        "0xca1278f7a32bd664b14217e9d964e2894340f483d995ed4fd8e64745925635d0",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "2": {
+      "parents": [
+        0
+      ],
+      "weights": "0x912bfc51163cf10bf43d5d54de60021460ec9dd4bfe687423bf7b740b350e2f8",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xd0510adfc4b8c54319961dfa9b5ed08443d491a8439d3e6b2cedb82a22ca0ece",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x2ab7a9f104330a452d65fb870402c2c8b57211b3105b5c16103c98e140afad51",
+        "0xc96d611e9bb686d55b6b81d9f3af743f301019096262da48b810db495f63499e",
+        "0xca1278f7a32bd664b14217e9d964e2894340f483d995ed4fd8e64745925635d0",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "3": {
+      "parents": [
+        0
+      ],
+      "weights": "0xffe463f5de9ccaf00f7d6ed68229c64479d1da53bb1d35837a32da65b00c1ee8",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xcaab6cfc424abea93d3465e97cab040e2cfaa35a324f8b3de9e4cac73095b2e0",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x9a08ba9d83e09dab7b720b2177959a38a15de4fb4824d730d2d5c2bac18e0aa6",
+        "0xc96d611e9bb686d55b6b81d9f3af743f301019096262da48b810db495f63499e",
+        "0xca1278f7a32bd664b14217e9d964e2894340f483d995ed4fd8e64745925635d0",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "4": {
+      "parents": [
+        0
+      ],
+      "weights": "0x2067ee0d18fb29c0937ea5d7306baa812dc035191c5f675183de36b0b5ee1972",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x702ee6348f9f292b3caa01315e53c905718f3e43a1e77a06eaf9bc98ec6fb0f0",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x16b87037e9aebc09d9114ed5fa38b6b04b8740e545c66b6c946c58ba7c45997c",
+        "0xaef0279efa4a04e5a08ad2e6227201cd3abdf8573f4b3ad1e2f43ffa57eaeef0",
+        "0x538d74649142464168f3bf9da70bd940ed3e2c223532f4ac301dd456eb4dd6c9",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "5": {
+      "parents": [
+        0
+      ],
+      "weights": "0x12f1b21e304ec8af221979cb16b06f3bb5cbd8c8c14a9b117a45efaa7b7edce8",
+      "dataset": "0xf7fa9113a95cadade726bdd1578371402e99144d6f2133eaa5d54f32f72da401",
+      "metadata": "0x1eafbeca5ef7fe4eb8374d16a0de04971f0d5092e47901f824a1b0467a5095a7",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x887f069de2bcdd6b6395f06229ffa0386f81533afe7d274f6866b351dc1731f9",
+        "0xaef0279efa4a04e5a08ad2e6227201cd3abdf8573f4b3ad1e2f43ffa57eaeef0",
+        "0x538d74649142464168f3bf9da70bd940ed3e2c223532f4ac301dd456eb4dd6c9",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "6": {
+      "parents": [
+        0
+      ],
+      "weights": "0x64262cf614508cad39ec546e794adf35d00ef2f4ae45d06f850b41a2afdd863a",
+      "dataset": "0xf7fa9113a95cadade726bdd1578371402e99144d6f2133eaa5d54f32f72da401",
+      "metadata": "0xbcce24abe32683af7e255ccb9d94cc98e3fa027dde53bd2202dc4523af1dccd5",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0xdd34ecd93f9cd1a479f61baf14c38932a2f58266f4b1e69295e9f5c492d8d2ff",
+        "0x7f92415142b7bf2459cb10aae5267a289240aeabf2e5e37925f3629d461c489a",
+        "0x538d74649142464168f3bf9da70bd940ed3e2c223532f4ac301dd456eb4dd6c9",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "7": {
+      "parents": [
+        0
+      ],
+      "weights": "0x24b98a74c5b53e29f722c5d4444f15d19db0c690df9e1476b71ad3829d830157",
+      "dataset": "0xf7fa9113a95cadade726bdd1578371402e99144d6f2133eaa5d54f32f72da401",
+      "metadata": "0x53438c4a4415ce0c35a17c715c95480994649af308b6a46ae6565beb97df072a",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x66d18e65d366c8fe8fc6ae3a8b3128c978f41845d93bcb325dee91ead5a00d93",
+        "0x7f92415142b7bf2459cb10aae5267a289240aeabf2e5e37925f3629d461c489a",
+        "0x538d74649142464168f3bf9da70bd940ed3e2c223532f4ac301dd456eb4dd6c9",
+        "0x96920d1dbcf3896c115cefa0e6f4cfa8b35452752256c11402d5a3423b987fb3"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "8": {
+      "parents": [
+        0
+      ],
+      "weights": "0x099c145b31a6a45c1c645f09d524131b32585a9b9062ffe968d86e7af8ab2f87",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xa5dee89eb997c7a1fc5c3dbcd357dda8675f3d99f1b4f6caf6b16cf11ce46a4d",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0xb8d77c03b51193c15b1e2b37c0d1224dea41f97850f0f089e5359e1eea3584bd",
+        "0x53306c14251d05171d099c80fca93036eaa3bd631da8d7dcd6a8e24d902de712",
+        "0x78a6e24587bc47b0b5c6a72384235284a5e403a24d848a0f8b23bcd0f93589c1",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "9": {
+      "parents": [
+        0
+      ],
+      "weights": "0xfee81a1d8aed07f4bf2161b4f79353491d64a13d79b3df5cd54f19c0d178e63d",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x5a700aae3412146b393301e6b1cc9c2533cdd66a77967d13cac45af30b85ac85",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0xb40fe913908d17242007f7756cd9d320bc5223680808ed0bf48cb0836e24b8f3",
+        "0x53306c14251d05171d099c80fca93036eaa3bd631da8d7dcd6a8e24d902de712",
+        "0x78a6e24587bc47b0b5c6a72384235284a5e403a24d848a0f8b23bcd0f93589c1",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "10": {
+      "parents": [
+        0
+      ],
+      "weights": "0x5da3cc958034a90bf79fa68bfa04ec518753b74b6dfa7e6112afb0d82d73d7a0",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xdf71435b6ba3deb0091c760ace87a89607547f7a508bb24735a25d92bc4e6775",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x8c78e2c4e53278e3ee0a5442a62c7f8d143e3230cf36a607beda152e5a557fd7",
+        "0xa1c318459c3d6b8ccc8354e4ce839d199c5a2636844563e76b201b4ea7347771",
+        "0x78a6e24587bc47b0b5c6a72384235284a5e403a24d848a0f8b23bcd0f93589c1",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "11": {
+      "parents": [
+        0
+      ],
+      "weights": "0xe5ec2d909ed03fd9618684c6fb62ba15a22e4b582cb81930e0f91c1f6e2e7a71",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x6ebe971235b66eb82348b15a3f8f7a6a5bf9672fa498fc30bdafb46eb7c230b1",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0xeec5bbd6bd5824a5f3370b579651acacd3375c7b370231f8ce3164dec9e4d5f9",
+        "0xa1c318459c3d6b8ccc8354e4ce839d199c5a2636844563e76b201b4ea7347771",
+        "0x78a6e24587bc47b0b5c6a72384235284a5e403a24d848a0f8b23bcd0f93589c1",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "12": {
+      "parents": [
+        0
+      ],
+      "weights": "0x26cd5e4a6629d4716575809affe85c002ad64a6885518afb386c30ca85fdb0f6",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xe4b4db6904b9c8c0b91dfcfef70d1f0c4c253e597a82ff2f778f480253bd1a8b",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x008402be0f512e59396992157fc2f1eaeccac8725a02ecca00875be530e79ee4",
+        "0xc055a2d8ef0cb6ec6ce13a081ece4c04f05542c1e4067875c52ff3a2bdadb7c0",
+        "0x6f1f95be2fd282593a81f7b948c02ef71bee01eca4d8d2adc683e6b90f777fe2",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "13": {
+      "parents": [
+        0
+      ],
+      "weights": "0x82adf4fdadede63cbc93715d50e3ae9dbc455cee7a4b9ee537aaf97620ef2783",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x70062d57487fbba9a8c6b0e13fdc80dce533918d6ea27a44155efefab362ad18",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x6c3273c935042afb41df7c246b0a7539628578c189254daaf9e17fe0092adcf7",
+        "0xc055a2d8ef0cb6ec6ce13a081ece4c04f05542c1e4067875c52ff3a2bdadb7c0",
+        "0x6f1f95be2fd282593a81f7b948c02ef71bee01eca4d8d2adc683e6b90f777fe2",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "14": {
+      "parents": [
+        0
+      ],
+      "weights": "0x53ac8499a1e41e7daad9ef5dd46fc8cd919bc245dc9000d5bfd8b855a7753cca",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x4193ec8203bd9d2da7bab578f4a8a47f2f61da98f3479f835d561581807ceb2b",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0xacda60f1f88ac498586dc887479a1b0dcffd0246057e7baf9b4943255e0980a0",
+        "0xcbe5bc93f47c4481c24543175bc6c2df37997963df251a61ec2d4d31feab8b50",
+        "0x6f1f95be2fd282593a81f7b948c02ef71bee01eca4d8d2adc683e6b90f777fe2",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "15": {
+      "parents": [
+        0
+      ],
+      "weights": "0x6da83e62b75d4f68857235711590c88acf63ccc4264562890b5535764c8a52c5",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x4042690db90fe33be2bc7bfc1af31731f6dea57b65aa1e81f163ed6e6383756b",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 0,
+      "siblings": [
+        "0x32c819817c53c805f4a4da18c089ee76e92dd477813815de43c729ff97001a02",
+        "0xcbe5bc93f47c4481c24543175bc6c2df37997963df251a61ec2d4d31feab8b50",
+        "0x6f1f95be2fd282593a81f7b948c02ef71bee01eca4d8d2adc683e6b90f777fe2",
+        "0x5e7fafe78f38f0d5bcc4ae98d8c34467c2c5f85a96e27e031fd3a44c86f03b53"
+      ],
+      "signature": [
+        28,
+        "0x8a7fc6260a5e5d746d9027c63bc1737c7226aff95de481c86ef5701d2e9f1620",
+        "0x5c170b16640537e40a44a98d6a30cbe9cacec9d4a3e01043694cdebf75eba266"
+      ]
+    },
+    "16": {
+      "parents": [
+        0
+      ],
+      "weights": "0xed7406a500ef21fa3eb3fd423a1520f21436520103f0a3f7cedbb3caed0af840",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x3a5fd4aacd68247b3a4430adcf5a0afbaec9506129a29268995af8f8ad20ee87",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xae08a155f803b98cd86c1c4a0fd4c49ec87a684efc1bd65e6dc50ce469d03255",
+        "0x156a28f7a3adb4b332e8429e1f4c0c68a6101b4f5a9607cb3a6f65de66450879",
+        "0x02a9cb181249e52cc429c5dbe51722ae4016a6cc71298d9d44e7c4802aa65a43",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "17": {
+      "parents": [
+        0
+      ],
+      "weights": "0xaa6c2f15c498dd71a375e7e2b00a54bccc876f6095e6fe64294750f546295d24",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xa8c49de5bc4e0cd73642296f18676546457618bcda8f04cacd894f0e5dc394d4",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x12a660825c5343c5a3494d1b73332f3841fc68146a2f51fad53b4199541cc883",
+        "0x156a28f7a3adb4b332e8429e1f4c0c68a6101b4f5a9607cb3a6f65de66450879",
+        "0x02a9cb181249e52cc429c5dbe51722ae4016a6cc71298d9d44e7c4802aa65a43",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "18": {
+      "parents": [
+        0
+      ],
+      "weights": "0xf18f15e2f4efab614c8cc66d9dd47287f67ed9a0fa17652e2534108b7eb9a130",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x2d047675783f2a97924c44df5ce06f4aa63081c6399ba8ae5976ca3ed4bb615c",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xc8abd07d191a328cb61e40684348e16a2b23e41ffb1d872873f3446ef15027a7",
+        "0x98ca5612bfca1b1e89211dea2ddd6b6476f7b06b1b1332a44f3db80860bea279",
+        "0x02a9cb181249e52cc429c5dbe51722ae4016a6cc71298d9d44e7c4802aa65a43",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "19": {
+      "parents": [
+        0
+      ],
+      "weights": "0xc6f369af6bdb9937b4e991cf064e6e38baf6e53665e7be299d483a5ffdcede59",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xe036dff36ab6da1c32b248c96bfb887581411ecb2f5825d41829f586f94adef0",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x5f8256370fcffbc4b0e29ef7462196cb5f7bc9002243b165fed4069350b4319a",
+        "0x98ca5612bfca1b1e89211dea2ddd6b6476f7b06b1b1332a44f3db80860bea279",
+        "0x02a9cb181249e52cc429c5dbe51722ae4016a6cc71298d9d44e7c4802aa65a43",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "20": {
+      "parents": [
+        0
+      ],
+      "weights": "0xa1ee500bcbffd0999de41ea68ca53aeee2544fe5c1721d909ec6aedd48e7ade9",
+      "dataset": "0x9123dcbb0b42652b0e105956c68d3ca2ff34584f324fa41a29aedd32b883e131",
+      "metadata": "0x8c99b4dd19c3797b4698ad96e70289c2b4b23184d8ed2a65014f832cbf67fb45",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xfba1e6a4199f3a0033887dbacbb0d56657e8b8d58245dc890e9278ae7c41853b",
+        "0x2af6a5feb9093d7babf998c9d3eea76ac08071bf742af60ddd3e71716fb9d020",
+        "0x5dc5b4906f3a43ff6938fa4904da69da38224e521d778721c3afdc8e354562dd",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "21": {
+      "parents": [
+        0
+      ],
+      "weights": "0x5d91d62d1983934e5ad2c9937c230ae5e8772f8531f20330afd320579cd5c512",
+      "dataset": "0x3cbd948704b37444845983cd0736f6f841cdcbc9d11fccbcc8d42176f663f661",
+      "metadata": "0x9b911b88d31a623ca831c2d34dd45c3537f5ef9894f1c01238e62f005c15e477",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xc1af5448a0332d490412c9807d311f88805b9fb8834ba5fdd71795560f707cfe",
+        "0x2af6a5feb9093d7babf998c9d3eea76ac08071bf742af60ddd3e71716fb9d020",
+        "0x5dc5b4906f3a43ff6938fa4904da69da38224e521d778721c3afdc8e354562dd",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "22": {
+      "parents": [
+        0
+      ],
+      "weights": "0x70f912a516e8de02e712b757d18aa2c2a56bbaee96c8732f865b7380aa86f332",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x34e7ac58051e510ad1c67cc6584ca01547937471345cac335b4e32844fb0a198",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xf50b8bf5a9fb97fb1a6457a93e161b0003cadfe9830d832b4bd17bbcba8b385c",
+        "0x1d4444082ee1ca0a0ce1582cd63fad6f98c496899db14070f273e046e47aba9c",
+        "0x5dc5b4906f3a43ff6938fa4904da69da38224e521d778721c3afdc8e354562dd",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "23": {
+      "parents": [
+        0
+      ],
+      "weights": "0xe0acdbed3872d5bacd5b41f2351c540622005c36c26c3fdedc547995d349b5c5",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x0de9e0ed7c7353708db724fcc7ea2e85d97b3c19be5c39c676b88cebb021db46",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xb55fe0e00daddc78d5f9d3f1aa62008d1cf04a451c2146bd736145f7309a86d0",
+        "0x1d4444082ee1ca0a0ce1582cd63fad6f98c496899db14070f273e046e47aba9c",
+        "0x5dc5b4906f3a43ff6938fa4904da69da38224e521d778721c3afdc8e354562dd",
+        "0x7a04fb7db5176bc2c9a0332fb2a23cb54428feafbf4a875ce525ba21cb084797"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "24": {
+      "parents": [
+        0
+      ],
+      "weights": "0xf48ca83c7df7df4bc7c4c1cb804c50d9ce669e8f6fe3aae2f8b4774f4119248e",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xf1c2b4ed6fc19f75596315738b19fac62a83132c0a7c825561e2cff215eb088d",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x726b5cfbd8f2aad22c19857782a7dc455c4d2c208fb12abb89942f44d8b95750",
+        "0x2deb5733a97dec17989e678880bcf79565cbc7276db19719704b2965e59ae859",
+        "0x070c949966675d8dab73f8203691301d476d4bdbf4a9fe08374cf598aa7808b4",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "25": {
+      "parents": [
+        0
+      ],
+      "weights": "0xbce9bb0e5fc0471189cf0a1ba1fc4ba0cb809c1a2d80d1927b62bd1acbd8ea56",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x37066c86dee8af30db7dad59f48bb11646d69b77062f620dac4104db80aec056",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x89f0f2022733103fe08a89be24d4e07c5539ae4a86f6e0ed9ab7243a7639acd4",
+        "0x2deb5733a97dec17989e678880bcf79565cbc7276db19719704b2965e59ae859",
+        "0x070c949966675d8dab73f8203691301d476d4bdbf4a9fe08374cf598aa7808b4",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "26": {
+      "parents": [
+        0
+      ],
+      "weights": "0x101b59817d2ca1720652b038b6d5077f2ff182d21e4674a6bdeae7bfbf3611e1",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0xb72b0e2ef4936baa3f2d01c56bc4588e19b80dc44326ac7b60e3d304d6ca100c",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x0a752a27bd330e3367ad292626ddf5f5b53c107625deec0536af1b9e7278b910",
+        "0x4f9f82c2bc6ba4da3651708c657db532cb2d8da27e8c4c1109a3cac683ed85ca",
+        "0x070c949966675d8dab73f8203691301d476d4bdbf4a9fe08374cf598aa7808b4",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "27": {
+      "parents": [
+        0
+      ],
+      "weights": "0x974892ccfd87d9e449b038c03b3dc7e18caba2d5f98be3b0e625380b4d4b6a2c",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x0df5cc34bf68298eb5eb3dcf98ff3bcf6c5a2a2d86cd98fb58b85615d8c61445",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x1abae68fbf67e04ad5feec41792a83f12d05d8a59c6ba71084333f939643751a",
+        "0x4f9f82c2bc6ba4da3651708c657db532cb2d8da27e8c4c1109a3cac683ed85ca",
+        "0x070c949966675d8dab73f8203691301d476d4bdbf4a9fe08374cf598aa7808b4",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "28": {
+      "parents": [
+        0
+      ],
+      "weights": "0x3dafb55e67c898abd6ee51cf613e67669ab24a75918aaf7aa997e2be3ca96059",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x201566fdd950c3481a00cbd26bc43b258ae9f3eb60c95b2f054e3d6ac1c1f7a2",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x61010e80d0e35cf621dc8df03a2aa491bdff188ab077d14be09043160a6d181a",
+        "0x5197647a5e13701008c49de7828c4d190f2afa006e3d0039394772a3579551b7",
+        "0x7b658ece3c9d8b93593364c064753a69f6db943e7a38ec968b6c9a6f7c99ba16",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "29": {
+      "parents": [
+        0
+      ],
+      "weights": "0xea62b9b56060e56aeb9bab29d936a6f2a5122068dbbb506e5aff60a2c30d240c",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x2e98d3717910fbc5f4f33d1f5425d1e6ac17917b9f3c5018c4ea16b389bceea9",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xa858c52bb239697aefd0504c1aae94e67170d865a483a197b02f918bff5a2eb9",
+        "0x5197647a5e13701008c49de7828c4d190f2afa006e3d0039394772a3579551b7",
+        "0x7b658ece3c9d8b93593364c064753a69f6db943e7a38ec968b6c9a6f7c99ba16",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "1374": {
+      "parents": [
+        0
+      ],
+      "weights": "0x5aa364f75b6ebc0d18cf7ab80f74921bc34e97419441a13d1f22504bcdaf38cd",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x70c3090f4bc4f1393c42dea399d08d70289869266312761d53550825d5895233",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0xca9d199184eb1fb56a3d17ddf846bd5c313e9ef7987300de133463af8477c23d",
+        "0xcba46bdedb95ed091c0ef166d26cd5e994650fc229af249bfaddf42835fa1af8",
+        "0x7b658ece3c9d8b93593364c064753a69f6db943e7a38ec968b6c9a6f7c99ba16",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    },
+    "2169": {
+      "parents": [
+        0,
+        1374
+      ],
+      "weights": "0x984de9e47fb98135ffaaac025b3502686b4560de82d85ebe074333ce53f736dd",
+      "dataset": "0x4a096ffedfb935e358b14ffa3a738501e84a2bbe3aac49602cf971e94e32e436",
+      "metadata": "0x6c644e8f4e6152e4e2f9d19ad5a2d10c0692848108800951ad5599a8e166f301",
+      "publisher": "0xd53C4842Bd7a21a19Ea2D7709f6db6863E985521",
+      "batch_id": 1,
+      "siblings": [
+        "0x69f5b4a0b150d93cdf4e538724b942a57be872693a67c5efdd430c3ef3c23688",
+        "0xcba46bdedb95ed091c0ef166d26cd5e994650fc229af249bfaddf42835fa1af8",
+        "0x7b658ece3c9d8b93593364c064753a69f6db943e7a38ec968b6c9a6f7c99ba16",
+        "0x29654fe24ab7f86114f2f01ab49eddf58c45a29dd7a1282ba6a8b7a5622000ed"
+      ],
+      "signature": [
+        28,
+        "0x8f4b91a5a27f754a4042efcf30a563b9e85ff1ddb5961e762abd386d81ae817c",
+        "0x18f6d179555157455cacae2caa6ef5b3a3ba62c34e711b81bd411428be137acb"
+      ]
+    }
+  }
+}

@@ -70,3 +70,28 @@ forge verify-contract --chain sepolia --watch \
   --constructor-args "$(cast abi-encode 'constructor(address)' "$ATTESTER_ADDRESS")" \
   "$D3_ADDRESS" src/DAGAnchor.sol:DAGAnchor
 ```
+
+
+## Independently audit a D3 merge
+
+Each replay exports one proof bundle per D3 capacity. It records parent
+indices, the committed hashes, publisher addresses, batch IDs, Merkle
+siblings and attestation signatures for the selected records. The
+independent verifier checks those commitments against the registration
+plan, then validates the target and every ancestor on-chain. Supply the
+expected chain ID and anchor address from the deployment evidence.
+This checks the committed claims and the signatures of the attester
+configured in the trusted contract.
+
+```bash
+python scripts/verify_anchor.py results/sepolia/sepolia_d3_k16_proofs.json \
+  --chain-id 11155111 --anchor "$D3_ADDRESS" --model-index 2169
+```
+
+For a local replay, use `chain_check.py --save-anvil-state --out <new-directory>`.
+After it finishes, run `anvil --chain-id 31337 --hardfork cancun --load-state <new-directory>/anvil_state.json`
+in a separate terminal. Pass the local bundle, the anchor address from
+the corresponding Anvil receipt, and `--chain-id 31337 --rpc-url http://127.0.0.1:8545`
+to the verifier. The
+[local audit evidence](../results/validation/d3-audit-2026-11-24/README.md)
+records a successful merge audit and rejection of an altered attestation.
