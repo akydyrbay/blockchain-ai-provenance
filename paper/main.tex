@@ -1,6 +1,7 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{amsmath}
 \usepackage{booktabs}
+\usepackage{graphicx}
 \input{validation_counts}
 
 \title{Where Should Provenance Policy Run? A Comparison of On-Chain Enforcement and Attested Model Lineage}
@@ -9,6 +10,22 @@
 
 \begin{document}
 \maketitle
+
+\begin{abstract}
+We compare three EVM designs for auditing model ancestry on a workload
+derived from a Hugging Face model family. A direct storage registry
+records parent links. A second registry enforces provenance policy in
+Solidity. A third evaluates the policy off-chain and anchors attested
+Merkle commitments. On local Anvil replays, batching reduces
+registration gas and new on-chain storage. Synthetic chains and
+multi-parent records show that storage-based verification costs grow
+with lineage complexity, while the anchored target check remains
+roughly constant at batch size one. Controlled tests distinguish inputs
+refused by admission policy from alterations detected during an audit.
+The anchored design relies on the attester and on access to the
+off-chain records and proofs.
+\end{abstract}
+
 
 \section{Introduction}
 A model published on a public hub may derive from one checkpoint or merge
@@ -121,7 +138,15 @@ off-chain records and proofs. Local latency depends on the machine,
 software versions, and RPC access pattern.
 
 \section{Conclusion}
-% Authors: write after reviewing the measured answers and limitations.
+The local measurements show where each design puts the work. Direct
+storage makes the ancestry available through the registry. Solidity
+policy enforcement adds registration work and can refuse candidates
+outside the configured policy. Attested Merkle batches reduce on-chain
+registration work and storage while relying on a trusted policy
+attester and the continued availability of the records and proofs.
+All designs detected the controlled alterations in the saved workload.
+An independent proof-bundle audit also checked a merged model and its
+ancestors against the anchor after the replay exited.
 
 \section*{Acknowledgements}
 The authors used OpenAI Codex to review the project plan, assist with

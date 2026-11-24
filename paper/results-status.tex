@@ -41,6 +41,24 @@ D3 policy timing includes the OPA HTTP round trip. Verification timing
 includes retrieving state through local RPC and checking the lineage
 against the expected commitments.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.94\textwidth]{synthetic_scaling.pdf}
+\caption{Synthetic verification scaling on Anvil. D3 uses batches of
+one model to hold proof size fixed. Shaded bands show the interquartile
+range of wall-clock observations. D1 and D2 gas curves nearly overlap.}
+\label{fig:scaling}
+\end{figure*}
+
+Figure~\ref{fig:scaling} separates chain depth from parent fan-in.
+D1 and D2 walk additional records as either workload grows, increasing
+gas and local verification time. D3 reconstructs the target commitment
+off-chain and checks the target's inclusion and attestation on-chain.
+The measured on-chain call stays roughly constant at batch size one.
+The wall-clock curves cover the measured synthetic range with records
+available locally. The separate proof-export demo audits each ancestor's
+inclusion and attestation as well.
+
 \begin{table}[t]
 \centering
 \caption{Audit rejections over applicable cases. Clean rejections
