@@ -16,10 +16,29 @@ each configuration. A second local Anvil node using the Sepolia chain ID
 exercised the full receipt-pairing path.
 [Paired local validation](../results/anvil/2026-11-21-sepolia-sample/paired_local_validation.json)
 
-The public run still needs the funded test wallet to be unlocked. The local Foundry wallet is stored in an encrypted keystore. The runner
-accepts its password interactively. The prior broadcaster’s address had
-test ETH at the read-only check. Public deployment addresses and explorer
-verification results are pending.
+## Completed public replay
+
+The 32-model replay confirmed all 103 Sepolia transactions on chain
+`11155111` across blocks `12204550–12204667`. The paired run
+started at `2026-11-24T19:14:07.948505+00:00` and finished at `2026-11-24T19:39:02.286165+00:00`.
+The source revision was `f6e1dc54f961730a70c974304867920c4bd537d6`.
+The independent capacity-16 D3 audit verified merge model `2169` and
+its two ancestors against the public anchor.
+
+| Configuration | Verified source | Deployment transaction | Block |
+| --- | --- | --- | ---: |
+| D1 | [`0x60A43634945Bbb4BfcE1a8507c2a0bed86D6bbea`](https://sepolia.etherscan.io/address/0x60A43634945Bbb4BfcE1a8507c2a0bed86D6bbea#code) | [`0x20931362…`](https://sepolia.etherscan.io/tx/0x209313622d546523290e76e392f00b4f48fa89407f835e88ff0935c111d57ef1) | 12204550 |
+| D2 | [`0xDf1d44582d6d0D3C04C39413800bbF5E2F9D39aB`](https://sepolia.etherscan.io/address/0xDf1d44582d6d0D3C04C39413800bbF5E2F9D39aB#code) | [`0x93a91883…`](https://sepolia.etherscan.io/tx/0x93a91883b22f33e6c9f398b0df186c40fb15c59767b8ecc9728d6495cb15f2d5) | 12204590 |
+| D3, capacity 1 | [`0xa1b2965982494825945Ac7C101DCe0f1dCAd0B80`](https://sepolia.etherscan.io/address/0xa1b2965982494825945Ac7C101DCe0f1dCAd0B80#code) | [`0xb4b03f4a…`](https://sepolia.etherscan.io/tx/0xb4b03f4af0ce66af32b9f49ed0a0f6ada9408d686fd6577737dedeec55bd8c97) | 12204625 |
+| D3, capacity 16 | [`0x766553d08eF196e5FEA0e64E45880110C047dd17`](https://sepolia.etherscan.io/address/0x766553d08eF196e5FEA0e64E45880110C047dd17#code) | [`0x6c61b377…`](https://sepolia.etherscan.io/tx/0x6c61b3777cbc840b78de161f7903d42cfb831a99f917d581f26670f40ae451e3) | 12204665 |
+
+Etherscan listed published source for all four addresses with Solidity
+0.8.24. The [receipt journal](../results/sepolia/sepolia_receipts.json),
+[manifest](../results/sepolia/manifest.json) and
+[paired comparison](../results/sepolia/chain_check.json) preserve the
+full transaction and run details. Every paired transaction used more
+gas on Sepolia. The Anvil sample executed under Cancun and the Sepolia
+sample under Glamsterdam, so these are cross-fork observations.
 
 ## Run the paired replay
 

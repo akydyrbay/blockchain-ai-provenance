@@ -211,10 +211,10 @@ Owner: contract lead; verification/evaluation lead checks independently.
 
 - [x] Freeze the 32-model sample and verify the receipt comparison locally. See the [deployment runbook](docs/deployments.md).
 - [x] Export D3 proof bundles and independently check a merge and its ancestors after reloading local chain state.
-- [ ] Deploy D1, D2 and D3 to Sepolia; verify the sources on Etherscan.
-- [ ] Replay a fixed prefix of the plan (size set in the measurement plan, including at least one merge model) under all three designs.
-- [ ] Compare `gasUsed` with Anvil row by row → `results/sepolia/chain_check.json`. Report and explain any difference; do not remove it.
-- [ ] Record addresses, transaction hashes, blocks, UTC times and the source commit in `docs/deployments.md`.
+- [x] Deploy D1, D2 and D3 to Sepolia; verify the sources on Etherscan.
+- [x] Replay a fixed prefix of the plan (size set in the measurement plan, including at least one merge model) under all three designs.
+- [x] Compare `gasUsed` with Anvil row by row → `results/sepolia/chain_check.json`. Report and explain any difference; do not remove it.
+- [x] Record addresses, transaction hashes, blocks, UTC times and the source commit in `docs/deployments.md`.
 
 ### Phase I — Figures, tables and release
 
