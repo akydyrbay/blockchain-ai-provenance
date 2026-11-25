@@ -1,0 +1,37 @@
+Compiling 1 files with Solc 0.8.24
+Solc 0.8.24 finished in 1.93s
+Compiler run successful!
+
+Ran 8 tests for forge_test/ComparativeRegistry.t.sol:ComparativeRegistryTest
+[PASS] testAnchoredProofAndAttestation() (gas: 871856)
+[PASS] testLegacyVersionPathEnforcesPublisherPolicy() (gas: 2190147)
+[PASS] testMergeReturnsSharedAncestorOnce() (gas: 3047079)
+[PASS] testParentLicenceAndRevocation() (gas: 3372463)
+[PASS] testProbeReturnsLineageCallResult() (gas: 2096903)
+[PASS] testRegisteredWeightCannotBeReused() (gas: 2577284)
+[PASS] testUnlistedDatasetCannotBeRegistered() (gas: 2213086)
+[PASS] testUnversionedParentCannotBeUsed() (gas: 1861427)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 42.25ms (8.44ms CPU time)
+
+Ran 18 tests for forge_test/ModelRegistry.t.sol:ModelRegistryTest
+[PASS] testCannotAppendAsNonOwner() (gas: 108343)
+[PASS] testFuzzInvalidVersionIndexes(uint256) (runs: 256, μ: 32539, ~: 32533)
+[PASS] testFuzzMissingModelsRejectAllModelOperations(uint256) (runs: 256, μ: 141056, ~: 141003)
+[PASS] testFuzzNonOwnerCannotAppendOrTransfer(address) (runs: 256, μ: 96011, ~: 96011)
+[PASS] testFuzzRejectsEitherMissingHash(bytes32) (runs: 256, μ: 217221, ~: 217454)
+[PASS] testFuzzStoresNonzeroHashes(bytes32,bytes32,bytes32) (runs: 256, μ: 235343, ~: 235970)
+[PASS] testOwnerAppendsWithoutChangingPriorVersion() (gas: 376722)
+[PASS] testOwnershipTransferChangesAppendPermissions() (gas: 462620)
+[PASS] testOwnershipTransferValidatesNewOwnerAndPermissions() (gas: 90650)
+[PASS] testRegisterModelStartsWithoutVersions() (gas: 268685)
+[PASS] testRegisterVersionStoresRecord() (gas: 98341)
+[PASS] testRejectsBothZeroHashes() (gas: 106846)
+[PASS] testRejectsEmptyNameWithoutConsumingModelId() (gas: 213013)
+[PASS] testRejectsZeroTrainingDataHash() (gas: 107248)
+[PASS] testRejectsZeroWeightsHash() (gas: 107196)
+[PASS] testUnknownModelAndVersionRevert() (gas: 61579)
+[PASS] testVersionRegistrationEmitsEventAndStoresAllArtifacts() (gas: 291909)
+[PASS] testVersionsAreIsolatedBetweenModels() (gas: 500312)
+Suite result: ok. 18 passed; 0 failed; 0 skipped; finished in 50.58ms (205.25ms CPU time)
+
+Ran 2 test suites in 51.33ms (92.84ms CPU time): 26 tests passed, 0 failed, 0 skipped (26 total tests)

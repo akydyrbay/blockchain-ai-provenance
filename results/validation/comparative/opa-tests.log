@@ -1,0 +1,16 @@
+policy/provenance_test.rego:
+data.provenance.test_clean: PASS (714.64µs)
+data.provenance.test_missing_parent: PASS (396.302µs)
+data.provenance.test_revoked_parent: PASS (462.881µs)
+data.provenance.test_duplicate_parent: PASS (514.555µs)
+data.provenance.test_missing_weights: PASS (214.04µs)
+data.provenance.test_missing_dataset: PASS (201.524µs)
+data.provenance.test_duplicate_weights: PASS (219.051µs)
+data.provenance.test_unlisted_dataset: PASS (292.571µs)
+data.provenance.test_unauthorized_publisher: PASS (857.948µs)
+data.provenance.test_invalid_licence: PASS (203.063µs)
+data.provenance.test_stricter_parent: PASS (532.017µs)
+data.provenance.test_unknown_child_licence: PASS (488.447µs)
+data.provenance.test_no_derivatives_overrides_unknown: PASS (520.933µs)
+--------------------------------------------------------------------------------
+PASS: 13/13

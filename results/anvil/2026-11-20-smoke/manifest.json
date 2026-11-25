@@ -1,0 +1,47 @@
+{
+  "mode": "smoke",
+  "started_utc": "2026-11-20T13:44:31.018790+00:00",
+  "chain_id": 31337,
+  "seed": 42,
+  "hardfork": "cancun",
+  "host": {
+    "os": "Linux-7.0.0-43-generic-x86_64-with-glibc2.39",
+    "machine": "x86_64",
+    "cpu_count": 8
+  },
+  "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "web3": "7.16.0",
+  "command": [
+    "scripts/replay.py",
+    "--out",
+    "results/anvil/2026-11-20-smoke"
+  ],
+  "input": "data/registration_plan.csv",
+  "input_sha256": "2bf51ea5b5ddbf0d78f79f1de30bcd11b2b5b8a27d41c564d6f640d8261f952d",
+  "model_indices": [
+    0,
+    100,
+    102,
+    104
+  ],
+  "source_sha256": {
+    "src/DAGAnchor.sol": "3e49dba8ce36a8d756b87677cdf7b9ceba68703ccb0c5bb97be9d0682db4017b",
+    "src/ModelRegistry.sol": "3d77bafaedaa9581f0f9a93c8936c7d334cdf16138d2f836bec94ca4af0dbdae",
+    "src/PolicyRegistry.sol": "ab6af7d5199bd1e889c7d426f99cbc995e268ffa47a37dc42129b375108d0f1a",
+    "src/VerifyProbe.sol": "9922dd81009e2f9e7f091834c4caff0f969feb7c7b45fff8adf5d7be8490050d",
+    "policy/provenance.rego": "c410ef234ca5c010c5e55f5e0e90e22493a704699c58806b9554ff107d2c94e0",
+    "policy/provenance_test.rego": "b68f0c954a4c329b6c63cef429ecd267bf78a21c5c111ddbbfd53528d7d85756",
+    "scripts/replay.py": "12e1b785a14f8d1709802297c6a5cbd344b544ad81417b6f2929c4fbdfe8bae6",
+    "scripts/attester.py": "1a3cb4b92bdae5ac996c7864f83c7a5499e1235ef11279c1360b7504f7657a6b",
+    "scripts/registry_checks.py": "e480ccd6b078cd515a8a5ed6114b4a93eef5b04e9f683a8827ef10cb97b10bac",
+    "foundry.toml": "acf6fc60c584fb777d09372611df3ed334bbc6abdee6d369c85b50c969a6e597",
+    "requirements.txt": "dd12e5ce87fc3c9df5cdc36b40c2584a1089da70be00d1f0c17b9c37f6257f2a"
+  },
+  "versions": {
+    "forge": "forge Version: 1.9.0\nCommit SHA: 6056c5845d34205a83cf7108042adb137325c9df\nBuild Timestamp: 2026-11-02T20:28:32.434285913Z (1793651312)\nBuild Profile: dist",
+    "anvil": "anvil Version: 1.9.0\nCommit SHA: 6056c5845d34205a83cf7108042adb137325c9df\nBuild Timestamp: 2026-11-02T20:28:32.434285913Z (1793651312)\nBuild Profile: dist",
+    "opa": "Version: 1.4.2\nBuild Commit: 5e4582bb951f70641fe9ee85cc46245d079e5037\nBuild Timestamp: 2025-05-02T17:50:08Z\nBuild Hostname: \nGo Version: go1.24.2\nPlatform: linux/amd64\nRego Version: v1\nWebAssembly: unavailable"
+  },
+  "source_commit": "0542a3140988c605cde95dac3eb6a6ab7b557472",
+  "finished_utc": "2026-11-20T13:44:33.020561+00:00"
+}
