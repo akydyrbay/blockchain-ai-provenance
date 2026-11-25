@@ -3,17 +3,15 @@
 Research Track Project Topic:
 Blockchain for AI provenance / model registry. Implement a contract that records model versions, training-data hashes and ownership on-chain, so an AI model's lineage is auditable
 
-A research prototype for recording and verifying AI model versions on an Ethereum-compatible blockchain. Model files and datasets stay off-chain; a Solidity registry stores their hashes, metadata references, publisher addresses, and timestamps.
-
-The demo uses the real Iris dataset bundled with scikit-learn and two independently trained logistic-regression models. It demonstrates file integrity and version history, not fine-tuning ancestry.
+A research prototype that compares three ways to record and enforce AI model provenance on an Ethereum-compatible blockchain: direct on-chain storage (D1), policy enforced in Solidity (D2), and off-chain Open Policy Agent decisions anchored as attested Merkle commitments (D3). Model files and datasets stay off-chain; the registries store hashes, parent links, metadata references and publisher addresses. The designs are evaluated on the Hugging Face lineage tree of `TinyLlama/TinyLlama-1.1B-Chat-v1.0` and a synthetic depth and fan-in workload.
 
 ## Features
 
-- Model registration and owner-only version publication.
-- Append-only version records and one-step ownership transfer.
-- SHA-256 verification of datasets, model artifacts, metadata, and the referenced training script.
-- Offline tamper-detection experiments and hashing benchmarks.
-- Transaction gas collection for deployment and registration experiments.
+- Model registration with parent links, owner-only version publication and append-only version records.
+- Provenance policy rules P1--P5 implemented in both Solidity and Rego.
+- Merkle-DAG batch anchoring with EIP-712 attestations and independent proof-bundle audits.
+- Replay, timing, tamper-detection and admission experiments on Anvil, plus a paired Sepolia sample.
+- Offline SHA-256 hashing benchmark and transaction gas collection.
 
 The registry records claims made by an address. It does not prove that a model was trained on the declared data, establish legal ownership, or guarantee off-chain file availability.
 
@@ -21,12 +19,13 @@ The registry records claims made by an address. It does not prove that a model w
 
 | Path | Contents |
 | --- | --- |
-| `src/ModelRegistry.sol` | `AIModelRegistry` contract |
+| `src/` | `AIModelRegistry` (D1), `PolicyRegistry` (D2), `DAGAnchor` (D3) and `VerifyProbe` contracts |
+| `policy/` | Rego policy and OPA tests for D3 |
 | `forge_test/` | Foundry contract tests |
-| `scripts/` | Training, hashing, verification, and experiment tools |
-| `data/`, `models/` | Preserved Iris training data, model artifacts, and metadata |
-| `results/`, `figures/` | Experiment logs, raw measurements, and plots |
-| `docs/`, `literature/` | Conventions, research proposal, and reference material |
+| `scripts/` | Lineage collection, replay, verification, summary and plotting tools |
+| `data/` | Hugging Face lineage snapshot, registration plan and synthetic workload |
+| `results/`, `figures/` | Experiment logs, raw measurements, plots, and generated paper tables (`figures/tables/`) |
+| `docs/`, `literature/` | Measurement plan, research proposal and reference material |
 
 ## Setup
 
@@ -43,60 +42,18 @@ forge build
 forge test -vv
 ```
 
-`requirements.txt` pins the Python dependencies for training, verification, plotting, and static analysis. The Foundry configuration uses Solidity 0.8.24 and discovers tests in `forge_test/`. Building produces the verifier ABI at `out/ModelRegistry.sol/AIModelRegistry.json`. See [validation and deployment notes](docs/notes.md) for coverage, gas reports, and static analysis.
+`requirements.txt` pins the Python dependencies for the replay, verification, plotting, and static analysis. The Foundry configuration uses Solidity 0.8.24 and discovers tests in `forge_test/`. Building produces the verifier ABI at `out/ModelRegistry.sol/AIModelRegistry.json`. See [validation and deployment notes](docs/notes.md) for coverage, gas reports, and static analysis.
 
-## Off-chain experiments
-
-The repository includes the training CSV, both model versions, and their metadata. Use those preserved files for verification. `python scripts/train_demo.py` regenerates them and may change their hashes.
+## Off-chain hashing benchmark
 
 ```bash
-python scripts/check_artifacts.py      # preserved files still match their hashes
 python scripts/record_environment.py   # writes results/validation/environment.json
-python scripts/hash_file.py models/v1/model.joblib
-python scripts/tamper_demo.py data/iris_train.csv
-python scripts/experiment_integrity.py \
-  data/iris_train.csv \
-  models/v1/model.joblib models/v1/metadata.json \
-  models/v2/model.joblib models/v2/metadata.json \
-  --trials 30 --seed 42 --output results/integrity.csv
 python scripts/benchmark_hashing.py \
   --sizes-mib 1 10 50 --repeats 10 --output results/hash_benchmark.csv
 python scripts/plot_results.py
 ```
 
-How the data and models were produced is documented in [docs/iris-dataset.md](docs/iris-dataset.md). These commands compare against local baseline hashes and regenerate experiment outputs. They do not query the blockchain. The committed integrity run detected 150/150 modifications and accepted 5/5 original files; environment details are in [results/environment.json](results/environment.json).
-
-## Blockchain workflow
-
-Read the [registry conventions](docs/registry-conventions.md) before registering files. They define hash placement, metadata fields, and version numbering.
-
-1. Run the contract tests, then deploy `src/ModelRegistry.sol:AIModelRegistry` to local Anvil or Sepolia.
-2. Call `registerModel(name, metadataURI)` and obtain the model ID from the `ModelRegistered` event. Registration creates an empty model; IDs start at **0**.
-3. As the owner, call `registerVersion(modelId, weightsHash, trainingDataHash, versionURI, artifactHashes)` for each preserved version. Put its metadata hash in `artifactHashes[0]`.
-4. Verify both versions, then verify altered copies to demonstrate failure. Recheck v1 after adding v2 to demonstrate historical preservation.
-
-For Sepolia, configure an RPC endpoint and import a test wallet into an encrypted keystore. Use test ETH and keep keys and RPC credentials out of Git.
-
-```bash
-export SEPOLIA_RPC_URL='https://YOUR_SEPOLIA_RPC_ENDPOINT'
-cast wallet import provenance-demo --interactive
-forge create src/ModelRegistry.sol:AIModelRegistry \
-  --rpc-url "$SEPOLIA_RPC_URL" --account provenance-demo --broadcast
-export REGISTRY_ADDRESS='0xYOUR_DEPLOYED_CONTRACT_ADDRESS'
-```
-
-After registration, verify v1 using the actual model ID:
-
-```bash
-python scripts/verify.py --model-id 0 --version 1 \
-  --data data/iris_train.csv \
-  --artifact models/v1/model.joblib \
-  --metadata models/v1/metadata.json
-```
-
-For v2, use `--version 2` and the files in `models/v2/`. The CLI uses human version numbers: v1 maps to contract index 0. It checks file hashes and metadata consistency, returning `VERIFIED` (exit 0) or `NOT VERIFIED` (exit 1) for completed comparisons. Connection, configuration, and lookup errors also cause failure.
-
-For Anvil, pass `--rpc-url http://127.0.0.1:8545 --chain-id 31337` to the verifier. Its default chain is Sepolia (`11155111`). The verifier reads local files; it does not download metadata from registered URIs.
+The benchmark measures SHA-256 time over synthetic byte sequences. It does not query the blockchain; environment details for the committed run are in [results/environment.json](results/environment.json).
 
 ## Hugging Face lineage data
 
@@ -112,7 +69,7 @@ python scripts/weight_spot_check.py     # download and hash it -> results/anvil/
 
 ## Transaction measurements
 
-Save the contract address, chain ID, transaction hashes, block numbers, UTC dates, and tool versions. Deployment, model registration, v1 registration, and v2 registration are separate transactions.
+Save the contract address, chain ID, transaction hashes, block numbers, UTC dates, and tool versions for each transaction you measure.
 
 ```bash
 python scripts/collect_gas.py \
@@ -155,14 +112,12 @@ A persistent audit data store and publisher authentication are deployment concer
 The licence policy compares the declared classes from the benchmark plan.
 
 The manuscript is maintained on Overleaf. Its generated table inputs and
-Figure 1 (`synthetic_scaling.pdf`) are in [docs/paper-tables](docs/paper-tables).
+Figure 1 (`synthetic_scaling.pdf`) are in [figures/tables](figures/tables).
 
 Use `python scripts/replay.py --mode checks --out results/anvil/my-checks` to
 check altered weights, dataset references and parent links against a local
 replay of the full workload. Each applicable case compares an altered input
-with the original registration. Use
-`python scripts/integration_demo.py --out results/anvil/my-iris` for the
-preserved Iris byte checks through the D1/D2 version interface.
+with the original registration.
 
 ## License
 
