@@ -28,7 +28,7 @@ def main():
         for name in ("registration_rows.tex", "timing_rows.tex", "integrity_rows.tex",
                      "admission_rows.tex", "validation_counts.tex", "synthetic_scaling.pdf",
                      "sepolia_rows.tex", "sepolia_counts.tex"):
-            tracked = ROOT / "paper" / name
+            tracked = ROOT / "docs/paper-tables" / name
             if tracked.is_file() and filecmp.cmp(out / name, tracked, shallow=False):
                 print(f"PASS: {name}")
             else:

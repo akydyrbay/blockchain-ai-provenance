@@ -154,7 +154,8 @@ The D3 attester is driven by a single local replay process with an in-memory ind
 A persistent audit data store and publisher authentication are deployment concerns.
 The licence policy compares the declared classes from the benchmark plan.
 
-The [LaTeX draft](paper/main.tex) uses IEEEtran.
+The manuscript is maintained on Overleaf. Its generated table inputs and
+Figure 1 (`synthetic_scaling.pdf`) are in [docs/paper-tables](docs/paper-tables).
 
 Use `python scripts/replay.py --mode checks --out results/anvil/my-checks` to
 check altered weights, dataset references and parent links against a local
