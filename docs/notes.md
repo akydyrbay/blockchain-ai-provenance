@@ -7,17 +7,18 @@ Run from the repository root after installing Foundry. Tests are configured in `
 
 ```bash
 git submodule update --init --recursive
-mkdir -p forge_test_outputs
 ```
 
-The following commands regenerate the retained output files:
+The recorded Foundry and coverage logs for the comparison contracts are in
+`results/validation/comparative/` (`foundry.log`, `coverage.log`). To rerun the
+checks and save fresh output there:
 
 ```bash
 set -o pipefail
-forge test -vvv 2>&1 | tee forge_test_outputs/function_check.txt
-forge test --gas-report 2>&1 | tee forge_test_outputs/gas_report.txt
-forge coverage 2>&1 | tee forge_test_outputs/coverage.txt
-
+mkdir -p results/validation/local
+forge test -vvv 2>&1 | tee results/validation/local/function_check.txt
+forge test --gas-report 2>&1 | tee results/validation/local/gas_report.txt
+forge coverage 2>&1 | tee results/validation/local/coverage.txt
 ```
 
 ## Static analysis
