@@ -11,7 +11,6 @@ A research prototype that compares three ways to record and enforce AI model pro
 - Provenance policy rules P1--P5 implemented in both Solidity and Rego.
 - Merkle-DAG batch anchoring with EIP-712 attestations and independent proof-bundle audits.
 - Replay, timing, tamper-detection and admission experiments on Anvil, plus a paired Sepolia sample.
-- Offline SHA-256 hashing benchmark and transaction gas collection.
 
 The registry records claims made by an address. It does not prove that a model was trained on the declared data, establish legal ownership, or guarantee off-chain file availability.
 
@@ -24,7 +23,7 @@ The registry records claims made by an address. It does not prove that a model w
 | `forge_test/` | Foundry contract tests |
 | `scripts/` | Lineage collection, replay, verification, summary and plotting tools |
 | `data/` | Hugging Face lineage snapshot, registration plan and synthetic workload |
-| `results/`, `figures/` | Experiment logs, raw measurements, plots, and generated paper tables (`figures/tables/`) |
+| `results/`, `figures/` | Experiment logs, raw measurements, the architecture figure, and generated paper tables (`figures/tables/`) |
 | `docs/`, `literature/` | Measurement plan, research proposal and reference material |
 
 ## Setup
@@ -42,18 +41,7 @@ forge build
 forge test -vv
 ```
 
-`requirements.txt` pins the Python dependencies for the replay, verification, plotting, and static analysis. The Foundry configuration uses Solidity 0.8.24 and discovers tests in `forge_test/`. Building produces the verifier ABI at `out/ModelRegistry.sol/AIModelRegistry.json`. See [validation and deployment notes](docs/notes.md) for coverage, gas reports, and static analysis.
-
-## Off-chain hashing benchmark
-
-```bash
-python scripts/record_environment.py   # writes results/validation/environment.json
-python scripts/benchmark_hashing.py \
-  --sizes-mib 1 10 50 --repeats 10 --output results/hash_benchmark.csv
-python scripts/plot_results.py
-```
-
-The benchmark measures SHA-256 time over synthetic byte sequences. It does not query the blockchain; environment details for the committed run are in [results/environment.json](results/environment.json).
+`requirements.txt` pins the Python dependencies for the replay, verification, plotting, and static analysis. The Foundry configuration uses Solidity 0.8.24 and discovers tests in `forge_test/`. Building produces the verifier ABI at `out/ModelRegistry.sol/AIModelRegistry.json`. See [validation and deployment notes](docs/notes.md) for coverage, gas reports, and static analysis. `python scripts/record_environment.py` writes the environment record to `results/validation/environment.json`.
 
 ## Hugging Face lineage data
 
@@ -66,22 +54,6 @@ python scripts/synthetic_chain.py       # synthetic depth chain 0-20 and fan-in 
 python scripts/weight_spot_check.py --dry-run   # show the seeded 10-model sample and its download size
 python scripts/weight_spot_check.py     # download and hash it -> results/anvil/weight_spot_check.csv
 ```
-
-## Transaction measurements
-
-Save the contract address, chain ID, transaction hashes, block numbers, UTC dates, and tool versions for each transaction you measure.
-
-```bash
-python scripts/collect_gas.py \
-  --tx 'deploy:0xDEPLOYMENT_TX_HASH' \
-  --tx 'register_model:0xMODEL_TX_HASH' \
-  --tx 'register_v1:0xV1_TX_HASH' \
-  --tx 'register_v2:0xV2_TX_HASH' \
-  --output results/gas.csv
-python scripts/plot_results.py
-```
-
-The plotter creates `figures/hash_time.png` and, when `results/gas.csv` exists, `figures/transaction_gas.png`. The gas chart is labeled for Sepolia; keep local simulation results separate. Gas used and hashing time measure different costs.
 
 ## Comparative Anvil replay
 
@@ -112,7 +84,9 @@ A persistent audit data store and publisher authentication are deployment concer
 The licence policy compares the declared classes from the benchmark plan.
 
 The manuscript is maintained on Overleaf. Its generated table inputs and
-Figure 1 (`synthetic_scaling.pdf`) are in [figures/tables](figures/tables).
+the synthetic scaling figure (`synthetic_scaling.pdf`) are in
+[figures/tables](figures/tables). The architecture figure
+(`figures/architecture.pdf`) is drawn by `python scripts/plot_architecture.py`.
 
 Use `python scripts/replay.py --mode checks --out results/anvil/my-checks` to
 check altered weights, dataset references and parent links against a local
