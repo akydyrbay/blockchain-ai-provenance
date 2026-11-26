@@ -249,6 +249,89 @@ def anchor_call(anchor, target, records, proofs, publishers):
     )
 
 
+def anchor_nodes(target, records):
+    """Recompute the node hashes of the target and its distinct ancestors, parents first."""
+    nodes, members = {}, {}
+    for index in sorted(lineage(target, records) | {target.index}):
+        record = target if index == target.index else records[index]
+        nodes[index] = node_hash(record.weights, record.dataset,
+                                 (nodes[parent] for parent in record.parents), record.metadata)
+        members[index] = record
+    return nodes, members
+
+
+def ancestry_calls(anchor, target, records, proofs, publishers):
+    """One inclusion-and-attestation check for the target and for every distinct ancestor."""
+    nodes, members = anchor_nodes(target, records)
+    calls = []
+    for index, record in members.items():
+        batch_id, proof, signature = proofs[index]
+        calls.append(anchor.functions.verifyAnchored(
+            nodes[index], publishers[record.publisher], proof, batch_id, *signature,
+        ))
+    return calls
+
+
+def verify_anchor_ancestry(w3, anchor, target, records, proofs, publishers):
+    """Full-ancestry D3 audit with the same batched JSON-RPC strategy as the storage verifier."""
+    with w3.batch_requests() as rpc_batch:
+        for call in ancestry_calls(anchor, target, records, proofs, publishers):
+            rpc_batch.add(call)
+        results = rpc_batch.execute()
+    return all(result is True for result in results)
+
+
+def storage_calls(registry, target, records, ids):
+    """Every contract call made by verify_storage, in the same order."""
+    ancestors = lineage(target, records)
+    calls = [registry.functions.getLineage(ids[target.index])]
+    for record in [records[index] for index in sorted(ancestors)] + [target]:
+        model_id = ids[record.index]
+        calls.extend((registry.functions.getParents(model_id), registry.functions.getModel(model_id),
+                      registry.functions.getVersion(model_id, 0)))
+    return calls
+
+
+def scope_gas(w3, design, size, samples, records, procedures, address):
+    """Sum the probe gas of every on-chain call that a verification procedure makes."""
+    probe, _ = deploy(w3, w3.eth.accounts[0], "VerifyProbe")
+    rows = []
+    for target in samples:
+        for procedure, calls_for in procedures.items():
+            calls = calls_for(target)
+            gas = sum(probe.functions.measure(address, call._encode_transaction_data()).call()[0]
+                      for call in calls)
+            rows.append({
+                "design": design, "batch_size": size, "procedure": procedure, "model_index": target.index,
+                "depth": target.depth, "n_parents": len(target.parents),
+                "n_ancestors": len(lineage(target, records)), "calls": len(calls), "gas": gas,
+            })
+    return rows
+
+
+def ancestry_measurements(design, size, records, samples, verify):
+    """Time a D3 audit procedure with the protocol used for the other verifiers."""
+    timed, audit = [], []
+    for target in samples:
+        fields = {
+            "design": design, "batch_size": size, "model_index": target.index, "depth": target.depth,
+            "n_parents": len(target.parents),
+        }
+        for trial, milliseconds, accepted in time_calls(lambda: verify(target)):
+            if not accepted:
+                raise AssertionError(f"{design} audit procedure did not verify {target.name}")
+            timed.append(dict(fields, trial=trial, milliseconds=milliseconds))
+    for trial in range(1, 6):
+        start = time.perf_counter_ns()
+        for target in records:
+            if not verify(target):
+                raise AssertionError(f"{design} audit procedure failed for {target.name}")
+        seconds = (time.perf_counter_ns() - start) / 1_000_000_000
+        audit.append({"design": design, "batch_size": size, "trial": trial, "seconds": seconds,
+                      "models": len(records), "models_per_second": len(records) / seconds})
+    return timed, audit
+
+
 def time_calls(operation):
     for _ in range(5):
         operation()
@@ -342,7 +425,7 @@ def assert_policy_equivalence(w3, opa_url, records):
     return output
 
 
-def replay(w3, opa_url, design, size, records, mode):
+def replay(w3, opa_url, design, size, records, mode, full_ancestry=False, batched_target=False):
     admin = w3.eth.accounts[0]
     accounts = {name: account_for("publisher:" + name) for name in sorted({r.publisher for r in records})}
     publishers = {name: account.address for name, account in accounts.items()}
@@ -422,17 +505,47 @@ def replay(w3, opa_url, design, size, records, mode):
 
     print(f"{design} k={size}: registered {len(records)}", flush=True)
     checked, admission = [], []
+    scoped, ancestry_timed, ancestry_audit, ancestry_checked = [], [], [], []
+    batch_timed, batch_audit = [], []
     if mode in ("smoke", "checks"):
         checked = integrity_cases(records, verify, design, size)
         admission = registration_cases(records, publishers, w3.eth.accounts[2], decide, design, size)
         timed, gas, audit = [], [], []
     else:
         timed, gas, audit = verify_measurements(w3, design, size, records, samples, verify, query, contract.address)
+        if full_ancestry:
+            if design == "D3":
+                def verify_ancestry(target):
+                    return verify_anchor_ancestry(w3, contract, target, by_id, proofs, publishers)
+
+                procedures = {
+                    "target": lambda target: [query(target)],
+                    "ancestry": lambda target: ancestry_calls(contract, target, by_id, proofs, publishers),
+                }
+                ancestry_timed, ancestry_audit = ancestry_measurements(design, size, records, samples,
+                                                                       verify_ancestry)
+                if batched_target:
+                    def verify_target_batched(target):
+                        with w3.batch_requests() as rpc_batch:
+                            rpc_batch.add(query(target))
+                            results = rpc_batch.execute()
+                        return results[0] is True
+
+                    batch_timed, batch_audit = ancestry_measurements(design, size, records, samples,
+                                                                     verify_target_batched)
+                if mode == "full":
+                    ancestry_checked = integrity_cases(records, verify_ancestry, design, size)
+            else:
+                procedures = {"storage": lambda target: storage_calls(contract, target, by_id, ids)}
+            scoped = scope_gas(w3, design, size, samples, by_id, procedures, contract.address)
     print(f"{design} k={size}: registered {len(records)} and completed lineage checks", flush=True)
     return {
         "gas.csv": rows, "policy_latency.csv": policy_rows, "verify_latency.csv": timed,
         "verify_gas.csv": gas, "audit_throughput.csv": audit, "integrity_cases.csv": checked,
-        "registration_cases.csv": admission,
+        "registration_cases.csv": admission, "scope_gas.csv": scoped,
+        "ancestry_latency.csv": ancestry_timed, "ancestry_throughput.csv": ancestry_audit,
+        "ancestry_integrity.csv": ancestry_checked, "target_batch_latency.csv": batch_timed,
+        "target_batch_throughput.csv": batch_audit,
     }
 
 
@@ -450,7 +563,17 @@ def main():
                         help="Run only the named configurations. Repeat to choose several.")
     parser.add_argument("--out", type=Path, required=True, help="New directory for this run's artifacts")
     parser.add_argument("--opa", default=os.environ.get("OPA", "opa"), help="Path to the OPA executable")
+    parser.add_argument("--full-ancestry", action="store_true",
+                        help="In full or synthetic mode, also time the D3 audit of every ancestor's proof and "
+                             "attestation, and sum the gas of every call each verifier makes")
+    parser.add_argument("--batched-target", action="store_true",
+                        help="With --full-ancestry, also time the D3 target check sent as a one-call JSON-RPC "
+                             "batch, the transport used by the storage and full-ancestry verifiers")
     args = parser.parse_args()
+    if args.full_ancestry and args.mode not in ("full", "synthetic"):
+        parser.error("--full-ancestry requires --mode full or --mode synthetic")
+    if args.batched_target and not args.full_ancestry:
+        parser.error("--batched-target requires --full-ancestry")
     forge, anvil, opa = map(executable, ("forge", "anvil", args.opa))
     args.out.mkdir(parents=True, exist_ok=False)
     timestamp = datetime.now(timezone.utc).isoformat()
@@ -461,7 +584,9 @@ def main():
         records = smoke_records(records)
     configurations = list(dict.fromkeys(args.configuration or CONFIGURATIONS))
     manifest = {
-        "configurations": configurations, "mode": args.mode, "started_utc": timestamp, "chain_id": 31337, "seed": 42, "hardfork": "cancun",
+        "configurations": configurations, "mode": args.mode, "full_ancestry": args.full_ancestry,
+        "batched_target": args.batched_target,
+        "started_utc": timestamp, "chain_id": 31337, "seed": 42, "hardfork": "cancun",
         "host": {"os": platform.platform(), "machine": platform.machine(), "cpu_count": os.cpu_count()},
         "python": sys.version, "web3": web3_version, "command": sys.argv,
         "input": str(path.relative_to(ROOT)), "input_sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
@@ -473,6 +598,7 @@ def main():
                                                    text=True).strip()
                      for name, cmd in (("forge", forge), ("anvil", anvil), ("opa", opa))},
         "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
+        "worktree_dirty": bool(subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True).strip()),
     }
     with server(lambda port: [opa, "run", "--server", "--log-level", "error", "--addr", f"127.0.0.1:{port}",
                               str(ROOT / "policy" / "provenance.rego")], opa_ready) as endpoint:
@@ -482,7 +608,8 @@ def main():
         for config in configurations:
             design, size = CONFIGURATIONS[config]
             with anvil_server(anvil) as url:
-                run = replay(provider(url), endpoint, design, size, records, args.mode)
+                run = replay(provider(url), endpoint, design, size, records, args.mode, args.full_ancestry,
+                             args.batched_target)
             for filename, rows in run.items():
                 if rows:
                     outputs.setdefault(filename, []).extend(rows)
