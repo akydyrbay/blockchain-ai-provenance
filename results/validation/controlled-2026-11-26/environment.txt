@@ -1,0 +1,23 @@
+forge Version: 1.9.0
+Commit SHA: 6056c5845d34205a83cf7108042adb137325c9df
+Build Timestamp: 2026-11-02T20:17:28.867659000Z (1793650648)
+Build Profile: dist
+anvil Version: 1.9.0
+Commit SHA: 6056c5845d34205a83cf7108042adb137325c9df
+Build Timestamp: 2026-11-02T20:17:28.867659000Z (1793650648)
+Build Profile: dist
+Version: 1.4.2
+Build Commit: 5e4582bb951f70641fe9ee85cc46245d079e5037
+Build Timestamp: 2025-05-02T17:50:08Z
+Build Hostname: 
+Go Version: go1.24.2
+Platform: darwin/amd64
+Rego Version: v1
+WebAssembly: available
+ProductName:		macOS
+ProductVersion:		14.3.1
+BuildVersion:		23D60
+Intel(R) Core(TM) i5-8210Y CPU @ 1.60GHz
+4
+Python 3.11.13
+web3 7.12.1

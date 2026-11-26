@@ -1,0 +1,15 @@
+case,expected,c_sol,c_opa
+clean,True,True,True
+clean_merge,True,True,True
+unregistered_parent,False,False,False
+duplicate_parent,False,False,False
+missing_weights,False,False,False
+missing_dataset,False,False,False
+duplicate_weights,False,False,False
+unlisted_dataset,False,False,False
+unauthorized_publisher,False,False,False
+unknown_child,True,True,True
+invalid_licence_class,False,False,False
+stricter_parent,False,False,False
+no_derivatives,False,False,False
+revoked_parent,False,False,False
