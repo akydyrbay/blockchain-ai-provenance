@@ -58,9 +58,3 @@ python scripts/summarize_controlled.py --placement results/anvil/2026-11-26-plac
 python scripts/plot_ancestry_scaling.py results/anvil/2026-11-26-ancestry-synthetic \
   --out figures/ancestry_scaling.pdf
 ```
-
-For the course hand-in, finish the draft for cross-team review and keep the
-response to that review. Confirm the final author list, reproduce the
-tables and figures from a clean checkout, and clear the final version and
-venue with the instructor. Retain the submission record with the final PDF
-and repository link.

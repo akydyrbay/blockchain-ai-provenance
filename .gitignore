@@ -10,3 +10,6 @@ __pycache__/
 !.env.example
 out/
 cache/
+
+# Foundry broadcast lock files
+*.recovery.lock
