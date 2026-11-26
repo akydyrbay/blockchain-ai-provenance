@@ -1,8 +1,10 @@
 # Generated paper tables and figure
 
 The manuscript source (`main.tex`, arxiv style) is maintained on Overleaf and
-is not tracked here. This directory keeps the generated table rows, counts and
-Figure 1 (`synthetic_scaling.pdf`) that the manuscript inputs; copy them into
+is not tracked here. This directory keeps the generated table rows and counts that the
+manuscript inputs. The synthetic verification figure is
+`figures/ancestry_scaling.pdf`, and the earlier host-A figure is
+`figures/synthetic_scaling.pdf`. copy them into
 the Overleaf project whenever they are regenerated.
 
 With the pinned requirements installed, check all tracked data artifacts
@@ -12,7 +14,7 @@ in one command from the repository root.
 python scripts/check_paper.py
 ```
 
-The check regenerates the seven LaTeX inputs and the figure in a temporary
+The check regenerates the ten LaTeX inputs and both figures in a temporary
 directory. It leaves the tracked copies in place and exits with an error
 if any byte differs.
 
@@ -36,13 +38,25 @@ python scripts/summarize_validation.py results/anvil/2026-11-20-checks results/a
 Generate the synthetic depth and fan-in figure from the saved replay.
 
 ```bash
-python scripts/plot_synthetic_scaling.py results/anvil/2026-11-20-synthetic --out figures/tables/synthetic_scaling.pdf
+python scripts/plot_synthetic_scaling.py results/anvil/2026-11-20-synthetic --out figures/synthetic_scaling.pdf
 ```
 
 Regenerate the public Sepolia sample table and counts from the paired receipts.
 
 ```bash
 python scripts/summarize_sepolia.py results/sepolia --out figures/tables
+```
+
+Regenerate the controlled placement and equal-scope verification tables, their
+counts, and the synthetic verification figure (`ancestry_scaling.pdf`)
+from the November 26 runs.
+
+```bash
+python scripts/summarize_controlled.py --placement results/anvil/2026-11-26-placement-full \
+  --ancestry results/anvil/2026-11-26-ancestry-full \
+  --target-batched results/anvil/2026-11-26-target-batched-full --out figures/tables
+python scripts/plot_ancestry_scaling.py results/anvil/2026-11-26-ancestry-synthetic \
+  --out figures/ancestry_scaling.pdf
 ```
 
 For the course hand-in, finish the draft for cross-team review and keep the

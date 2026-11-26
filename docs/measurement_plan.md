@@ -335,3 +335,44 @@ On-chain gas and off-chain time are never plotted on the same axis.
   record. A different-parent check requires a registered alternative parent
   earlier in the workload. Revocation is covered by the policy equivalence
   fixture. Treat the once-per-case timings as descriptive observations.
+- 2026-11-26: added two experiments that address confounds in the original
+  comparison; the original runs and tables are unchanged.
+  (1) **Controlled policy placement.** `src/PlacementRegistry.sol` defines one
+  registry contract inherited unchanged by `SolidityPolicyPlacement` (C-Sol) and
+  `OpaPolicyPlacement` (C-OPA). Both write the same storage slots per model (the
+  Foundry test `testVariantsWriteTheSameSlots` checks this), register one
+  publisher-signed transaction per model (no batching), keep the D1 structural
+  checks, and are audited by the D1/D2 storage verifier. C-Sol evaluates the D2
+  rules in Solidity. C-OPA obtains the OPA decision off-chain and submits the
+  attester's EIP-712 signature over the record digest, licence class, next model
+  ID and publisher; the contract verifies it with one `ecrecover`. Policy
+  configuration (allowlist, publisher roles, revocation flags) lives where the
+  rule runs: on-chain for C-Sol, in the attester for C-OPA. The run
+  (`scripts/placement_replay.py --mode full`) repeats the 14 policy-equivalence
+  cases, the 100-candidate admission cases, registration gas and state, decision
+  latency, the 95-target verification timing protocol (5 + 30 calls) and five
+  audit passes.
+  (2) **Equal-scope verification.** `scripts/replay.py --full-ancestry` adds the
+  D3 full-ancestry audit to the full and synthetic runs: the auditor recomputes
+  the node hashes and checks the target and every distinct ancestor with
+  `verifyAnchored` (its own publisher-bound proof and batch attestation), sending
+  the calls in one JSON-RPC batch, as the storage verifier does. It is timed on
+  the same 95 targets with the same protocol, run over the full workload for five
+  audit passes, and exercised with the integrity fixtures. The run also sums the
+  probe gas of every contract call each procedure makes (`scope_gas.csv`), so
+  on-chain gas is compared at equal scope. D1, D2 and the D3 target check are
+  re-measured in the same run, so all procedures share one host.
+  Both runs execute on a different host from the 20 November runs (recorded in
+  each manifest), so their timings are compared only within the new runs.
+- 2026-11-26 (after the first full-ancestry run): the D3 target check used
+  web3's single `eth_call` path, whereas the storage and full-ancestry verifiers
+  send one batched JSON-RPC request. On the synthetic roots, where both D3
+  procedures make the same single `verifyAnchored` call, the single-call path
+  took about 9.2 ms and the batched full-ancestry path about 5.3 ms (medians at
+  k = 1; a first synthetic run, superseded and not kept), so the transports
+  were not equivalent. In the kept synthetic run the single-call target check
+  took 9.2 ms and the batched target check 5.7 ms. `--batched-target` therefore times the target check as a
+  one-call batch. The synthetic run was repeated with it, and a D3-only full
+  run (`2026-11-26-target-batched-full`) adds the batched target check and
+  repeats the full-ancestry audit in the same session. The single-call
+  measurements are retained and reported as the original procedure.

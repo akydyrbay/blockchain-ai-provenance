@@ -18,7 +18,7 @@ The registry records claims made by an address. It does not prove that a model w
 
 | Path | Contents |
 | --- | --- |
-| `src/` | `AIModelRegistry` (D1), `PolicyRegistry` (D2), `DAGAnchor` (D3) and `VerifyProbe` contracts |
+| `src/` | `AIModelRegistry` (D1), `PolicyRegistry` (D2), `DAGAnchor` (D3), the controlled placement pair in `PlacementRegistry.sol`, and `VerifyProbe` |
 | `policy/` | Rego policy and OPA tests for D3 |
 | `forge_test/` | Foundry contract tests |
 | `scripts/` | Lineage collection, replay, verification, summary and plotting tools |
@@ -92,6 +92,37 @@ Use `python scripts/replay.py --mode checks --out results/anvil/my-checks` to
 check altered weights, dataset references and parent links against a local
 replay of the full workload. Each applicable case compares an altered input
 with the original registration.
+
+## Controlled experiments
+
+Two further runs separate policy placement from the other architectural
+choices and compare verification procedures of equal scope.
+
+```bash
+# C-Sol vs C-OPA: same contract storage, one publisher transaction per model,
+# same storage verifier; only the admission decision moves (Solidity vs OPA).
+python scripts/placement_replay.py --mode full --out results/anvil/my-placement
+
+# Adds the D3 full-ancestry audit (every ancestor's proof and attestation) and
+# the summed gas of every call each verifier makes.
+python scripts/replay.py --mode full --full-ancestry --out results/anvil/my-ancestry
+python scripts/replay.py --mode synthetic --full-ancestry --batched-target --out results/anvil/my-ancestry-synthetic
+# D3-only: the target check sent through the same batched JSON-RPC transport.
+python scripts/replay.py --mode full --full-ancestry --batched-target --configuration D3-1 \
+  --configuration D3-16 --configuration D3-128 --out results/anvil/my-target-batched
+
+python scripts/summarize_controlled.py --placement results/anvil/my-placement \
+  --ancestry results/anvil/my-ancestry --target-batched results/anvil/my-target-batched \
+  --out results/anvil/my-controlled-summary \
+  --csv-out results/anvil/my-controlled-summary
+python scripts/plot_ancestry_scaling.py results/anvil/my-ancestry-synthetic --out ancestry_scaling.pdf
+```
+
+The saved runs are `results/anvil/2026-11-26-placement-full`,
+`results/anvil/2026-11-26-ancestry-full`,
+`results/anvil/2026-11-26-target-batched-full` and
+`results/anvil/2026-11-26-ancestry-synthetic`. They ran on a different host
+from the November 20 runs, so compare their timings only with each other.
 
 ## License
 
